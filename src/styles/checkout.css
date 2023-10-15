@@ -1,0 +1,43 @@
+.checkout-contain {
+    /* max-width: 1400px; */
+    width: 100%;
+    margin-top: 160px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-items: center;
+}
+
+.ch-inforpayment-contain {
+    max-width: 700px;
+    width: 100%;
+    margin-left: 140px;
+    display: block;
+}
+
+.ch-inforpayment-contain h5 {
+    text-align: center;
+}
+
+.ch-bill-contain {
+    max-width: 380px;
+    width: 100%;
+    display: block;
+    border: 2px solid;
+    padding: 20px;
+    margin-right: 80px;
+    /* background-color: red; */
+}
+
+.ch-billitem-contain {
+    max-width: 700px;
+    width: 100%;
+}
+
+.ch-bill-contain ListGroupItem:first-child {
+    font-weight: bold;
+}
+
+/* .ch-billitem-contain p:nth-child(1) {
+    margin-right: 40px;
+} */
