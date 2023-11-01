@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.forgotpage-contain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("/src/images/backgroundlogin.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.wrapper-fg{
+    width: 420px;
+    
+    background: transparent;
+    border: 2px solid #e0d67c;
+    /*làm mờ ảnh nền*/
+    backdrop-filter: blur(20px); 
+    box-shadow: 0 0 10px #e0d67c;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 30px 40px;
+}   
+
+.wrapper-fg h1{
+    font-size: 36px;
+    text-align: center;
+}
+
+.wrapper-fg .input-box-fg{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box-fg input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid #e0d67c;
+    border-radius: 40px;
+    font-size: 16px;
+    color: #ffffff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box-fg input::placeholder{
+    color: #ffffff;
+}
+
+.input-box-fg i{
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+
+.btn-fg{
+    width: 100%;
+    height: 45px;
+    background: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    /*phần đệm*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    /*đổi chuột thành bàn tay*/
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.wrapper-fg .register-link-fg{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 5px 20px 5px 20px;
+}
+
+.register-link-fg p a{
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.register-link-fg p a:hover{
+    text-decoration: underline;
+}
+

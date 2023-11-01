@@ -6,6 +6,9 @@ import './styles/common.css'
 import './styles/checkout.css'
 import './styles/detail.css'
 import './styles/cart.css'
+import './styles/login.css'
+import './styles/forgot.css'
+import './styles/register.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,6 +22,9 @@ import { CheckOut } from './Pages/CheckOut';
 import TestForm from './Pages/TestForm';
 import { DetailProductPage } from './Pages/DetailProductPage';
 import { ShoppingCart } from './Pages/ShoppingCart';
+import {LoginPage} from './Pages/Login';
+import { ForgotPage } from './Pages/Forgot';
+import { RegisterPage } from './Pages/Register';
 
 
 function App() {
@@ -31,6 +37,10 @@ function App() {
         <Route path='test' element={<TestForm />} />
         <Route path='/detail' element={<DetailProductPage />} />
         <Route path='/cart' element={<ShoppingCart />} />
+        <Route path='/login' element={<LoginPage/>} />
+        <Route path='/forgot' element={<ForgotPage/>} />
+        <Route path='/register' element={<RegisterPage/>} />
+
         {/* <Route path='/detail' element={<DetailPage />} />
         <Route path='/homepage' element={<HomePage />} /> */}
         {/* <Route path='/' element={IntroducePage} /> */}
