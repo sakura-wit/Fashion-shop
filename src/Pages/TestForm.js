@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../schema";
-import { BuyButton } from "../components/common/BuyButton";
 
 function TestForm() {
 

@@ -1,16 +1,23 @@
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { BuyButton } from "./BuyButton";
 import Rating from "./Rating";
 import { Link } from "react-router-dom";
 import { ScrollToTop } from "./useScrollToTop";
+import { useDispatch } from "react-redux";
+import { updateProductCur } from "../../redux/Slice/ProductSlice";
+import { BuyButton } from "./BuyButton";
+import { AddCartButton } from "./AddCartButton";
 
 
 
-export function ItemProduct() {
+export function ItemProduct(props) {
+
+    const { image, title, data } = props
 
     const [isClick, setIsClick] = useState(false);
+
+
 
     const handleClick = () => {
 
@@ -21,6 +28,9 @@ export function ItemProduct() {
         setIsClick(false);
 
     };
+
+
+
 
     // function ProductInfor() {
     //     return (
@@ -40,26 +50,45 @@ export function ItemProduct() {
             style={{ zIndex: 2 }}
             className='item-control' >
             <div style={{ zIndex: 2 }} className=" itemfavour-control ">
-                <img style={{ zIndex: -2 }} src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-9/382628914_1364892494099796_5679409985926550937_n.png?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Lg_T6h9iJBAAX9ItHWv&_nc_ht=scontent.fsgn3-1.fna&oh=03_AdSoIA6Hbh4AHL-YPeNK6lNe7eHxgMcZDEWY_bNwhpeeLw&oe=653DF495" />
+                <img style={{ zIndex: -2 }} />
                 <FontAwesomeIcon style={{ zIndex: -1 }} icon={faHeart} />
             </div>
 
             <img style={{ zIndex: -1 }}
+                src={image}
 
-                src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
+            />
 
-            <Link to="/detail" onClick={ScrollToTop}>
-                <BuyButton
-                    title='Đặt hàng'
-                    style={{
-                        width: "160px",
-                        height: 40,
-                        marginLeft: 60,
-                        borderRadius: "0.4rem"
-                    }} />
-            </Link>
+            <div style={{ marginLeft: "80px" }}>
+                <p>{title}</p>
+                <Link to="/detail" onClick={ScrollToTop}>
+                    <BuyButton
+                        data={data}
+                        title='Đặt hàng'
+                        style={{
+                            width: "120px",
+                            height: 40,
+                            borderRadius: "0.4rem"
 
-            <p>TITLE</p>
+
+                        }} />
+
+                    {/* <BuyButton
+                        title='Đặt hàng'
+                        style={{
+                            width: "160px",
+                            height: 40,
+                            marginLeft: 60,
+                            borderRadius: "0.4rem"
+
+
+                        }} /> */}
+
+                </Link >
+
+
+            </div>
+
 
             <div className={`de-prevew-container ${isClick ? 'show' : ''}`}>
                 <h6>TITLE</h6>
@@ -72,6 +101,17 @@ export function ItemProduct() {
                     </div>
 
                 </div>
+                <AddCartButton
+                    data={data}
+                    title='Giỏ hàng'
+                    style={{
+                        width: "120px",
+                        height: 40,
+
+                        borderRadius: "0.4rem"
+
+
+                    }} />
 
             </div>
 

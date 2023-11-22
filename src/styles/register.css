@@ -5,44 +5,48 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+
 }
 
-.registerpage-contain{
+.registerpage-contain {
+
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("/src/images/backgroundregister.jpg") no-repeat;
+    /* background: url("/src/images/backgroundregister.jpg") no-repeat; */
     background-size: cover;
     background-position: center;
+    margin-top: 160px;
+    position: relative;
 }
 
-.a1{
+.a1 {
     width: 500px;
-    
+
     background: transparent;
     border: 2px solid #28434a;
     /*làm mờ ảnh nền*/
-    backdrop-filter: blur(20px); 
+    backdrop-filter: blur(20px);
     box-shadow: 0 0 10px #28434a;
     color: #ffffff;
     border-radius: 10px;
     padding: 30px 40px;
-}   
+}
 
-.a1 h1{
+.a1 h1 {
     font-size: 36px;
     text-align: center;
 }
 
-.a1 .input-box{
+.a1 .input-box {
     position: relative;
     width: 100%;
     height: 50px;
     margin: 30px 0;
 }
 
-.input-box input{
+.input-box input {
     width: 100%;
     height: 100%;
     background: transparent;
@@ -55,11 +59,11 @@
     padding: 20px 45px 20px 20px;
 }
 
-.input-box input::placeholder{
+.input-box input::placeholder {
     color: #ffffff;
 }
 
-.input-box i{
+.input-box i {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -68,7 +72,7 @@
 }
 
 
-.btn{
+.btn {
     width: 100%;
     height: 45px;
     background: #ffffff;
@@ -84,12 +88,12 @@
     font-weight: 600;
 }
 
-.a1 .or{
+.a1 .or {
     text-align: center;
     margin: 6px 30px 5px 30px;
 }
 
-.btnor{
+.btnor {
     text-align: center;
 }
 
@@ -104,14 +108,14 @@
     width: 40%;
     height: 45px;
     border-radius: 10px;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
-.a1 .content{
+.a1 .content {
     text-align: center;
     margin: 50px 0px;
 }
 
-.a1 .content a:hover{
+.a1 .content a:hover {
     text-decoration: underline;
 }

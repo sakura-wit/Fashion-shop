@@ -2,21 +2,25 @@ import React from "react";
 import { SlideShowDetails } from "./SlideShowDetail";
 import { ScrollView } from "../common/ScrollView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenRuler } from "@fortawesome/free-solid-svg-icons";
-import { BuyButton } from "../common/BuyButton";
+import { faBagShopping, faPenRuler } from "@fortawesome/free-solid-svg-icons";
+import { AddCartButton, BuyButton } from "../common/AddCartButton";
 import { ScrollToTop } from "../common/useScrollToTop";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export function SelectProduct() {
+
+    const dataDetailProduct = useSelector((state) => state.product.productDetail)
+    console.log('dataDetailProduct', dataDetailProduct);
 
     return (
         <>
 
             <div className="de-selectProduct-contain">
-                <SlideShowDetails />
+                <SlideShowDetails image={dataDetailProduct.imageDetail} />
                 <div className="de-detailselect-contain">
-                    <h4>Quần kaki basic nam form slim-fit Old Sailor - QKDE31007 - Big size upto 42</h4>
-                    <span style={{ padding: 8, textAlign: "center" }}>Mã sản phẩm  - QKDE310071</span>
+                    <h4>{dataDetailProduct.description}</h4>
+                    <span style={{ padding: 8, textAlign: "center" }}>{dataDetailProduct.hash}</span>
 
                     {/* Price */}
                     <div style={{
@@ -34,12 +38,12 @@ export function SelectProduct() {
                     {/* Size option */}
                     <div className="de-selectsize-contain">
 
-                        <select className="de-selectsize">
-                            <option selected> Size </option>
-                            <option></option> -
-                            <option></option>
-                            <option></option>
-                            <option></option>
+                        <select defaultValue="selected" className="de-selectsize">
+                            <option value="selected"> Size </option>
+                            <option value="opt1">1</option> -
+                            <option value="opt2" >2</option>
+                            <option value="opt3" >3</option>
+                            <option value="opt4">4</option>
                         </select>
 
                         <div>
@@ -50,10 +54,24 @@ export function SelectProduct() {
 
                     <div style={{ display: "flex", justifyContent: 'space-between' }}>
                         <Link to='/checkout' onClick={ScrollToTop}>
-                            <BuyButton style={{ width: 200 }} title='Đặt hàng ngay' />
+                            <button
+                                style={{ width: 180 }}
+                                className="buybut-control" >Đặt hàng ngay
+                                <FontAwesomeIcon className="buybut-control-icon"
+                                    icon={faBagShopping}
+                                    style={{ color: "#000", marginLeft: 10 }} /></button>
                         </Link>
 
-                        <BuyButton style={{ width: 180 }} title='Thêm vào giỏ hàng' />
+                        <AddCartButton
+                            data={dataDetailProduct}
+                            style={{ width: 180 }}
+                            title="Thêm vào giỏ hàng" />
+                        {/* <button
+                            style={{ width: 180 }}
+                            className="buybut-control" >Thêm vào giỏ hàng
+                            <FontAwesomeIcon className="buybut-control-icon"
+                                icon={faBagShopping}
+                                style={{ color: "#000", marginLeft: 10 }} /></button> */}
                     </div>
 
 

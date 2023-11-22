@@ -16,7 +16,7 @@ export function ScrollView(props) {
                 height={300}
             >
                 {dataList.map((data, key) => {
-                    return <div className="scr-titlescroll-contain">
+                    return <div key={key} className="scr-titlescroll-contain">
                         Title for branch #{key + 1}
                     </div>
                 })}

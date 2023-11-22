@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import schema from "../../schema";
 import { useState } from "react";
 import { useEffect } from "react";
-import { BuyButton } from "../common/BuyButton";
+import { AddCartButton, BuyButton } from "../common/AddCartButton";
 
 
 
@@ -23,17 +23,17 @@ export function InforPayment() {
         // Thêm các trường khác nếu cần
     ];
 
-    const [field, setField] = useState({
-        name: "",
-        label: ""
-    })
+    // const [field, setField] = useState({
+    //     name: "",
+    //     label: ""
+    // })
 
 
 
-    useEffect(() => {
-        setField("first", 'alo');
-        console.log(field)
-    }, [])
+    // useEffect(() => {
+    //     setField("first", 'alo');
+    //     console.log(field)
+    // }, [])
 
     const { control, handleSubmit, formState } = useForm({
         resolver: yupResolver(schema)
@@ -57,7 +57,8 @@ export function InforPayment() {
                 style={{
                     display: "flex",
                     width: "100%",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+
                 }}
             >
 
@@ -150,7 +151,7 @@ export function InforPayment() {
                     title="Địa chỉ email*" place="Địa chỉ" />
             </div>
 
-            <BuyButton title='Thanh toán' />
+            <AddCartButton title='Thanh toán' />
 
         </form >
     )

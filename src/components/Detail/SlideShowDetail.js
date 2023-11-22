@@ -2,17 +2,20 @@ import React from "react";
 import Slider from "react-slick";
 
 export function SlideShowDetails(props) {
-    const dot = [
-        "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
-        "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
-        "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
-        "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
-    ];
+
+    const { image } = props
+
+    // const dot = [
+    //     "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
+    //     "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
+    //     "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
+    //     "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
+    // ];
 
     const settings = {
         customPaging: function (i) {
             return (
-                <img width style={{ width: 100, height: 100 }} src={`${dot[i]}`} />
+                <img style={{ cursor: "pointer", width: 100, height: 100 }} src={`${image[i]}`} />
             );
         },
         dots: true,
@@ -28,28 +31,34 @@ export function SlideShowDetails(props) {
             <div >
                 <h2></h2>
                 <Slider {...settings}>
-                    <div style={{ backgroundColor: "black", height: 600, width: 600 }}>
+
+                    {image?.map((val, key) => {
+                        return (
+                            <div style={{ backgroundColor: "black", height: 600, width: 600 }}>
+                                <img key={key} style={{ cursor: "pointer", margin: "auto", width: 500, height: 500 }} src={val} />
+                            </div>
+
+                        )
+                    })}
+
+                    {/* <div style={{ backgroundColor: "black", height: 600, width: 600 }}>
                         asdasd
-                        <img style={{ margin: "auto", width: 500, height: 500 }} src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
+                        <img style={{ margin: "auto", width: 500, height: 500 }} src={image[0]} />
                     </div>
                     <div>
                         sadasd
-                        <img style={{ margin: "auto", width: 500, height: 500 }} src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
+                        <img style={{ margin: "auto", width: 500, height: 500 }} src={image[1]} />
                     </div>
                     <div>
                         asdasdas
-                        <img style={{ margin: "auto", width: 500, height: 500 }} src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
+                        <img style={{ margin: "auto", width: 500, height: 500 }} src={image[2]} />
                     </div>
                     <div>
                         asdadasdas
-                        <img style={{ margin: "auto", width: 500, height: 500 }} src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
-                    </div>
+                        <img style={{ margin: "auto", width: 500, height: 500 }} src={image[3]} />
+                    </div> */}
                 </Slider>
             </div>
         </div>
-
-        // <div style={{ width: 560, height: 800, border: "1px solid black", margin: "auto", marginLeft: 130 }}>
-        //     <img style={{ objectFit: "cover", marginTop: 50 }} src="	https://oldsailor.com.vn/vnt_upload/product/10_2023/thumbs/550_crop_4a37d5194cdf9881c1ce46.jpg" />
-        // </div>
     );
 }

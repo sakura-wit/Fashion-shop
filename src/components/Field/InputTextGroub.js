@@ -8,8 +8,12 @@ import schema from "../../schema";
 
 export function InputTextGroup(props) {
 
-    const { fields, control, formState, style, label, title } = props;
+    const { fields, control, formState, style, label, title, change, placeholder } = props;
 
+
+    const handleChane = (value) => {
+        console.log("value", value.target.value);
+    }
 
     return (
 
@@ -19,29 +23,23 @@ export function InputTextGroup(props) {
                 style={style}
                 className="inputtext-contain"
             >
-                {/* <label> {title} </label> */}
                 <Controller
-                    // key={field.name}
 
                     name={fields.name}
                     control={control}
-                    defaultValue=""
+                    defaultValue=''
                     render={({ field }) => (
                         <TextField
-                            // className="inputtext-contain-textfield"
-
                             size="small"
+                            id={fields.name}
                             fullWidth
                             label={fields.label}
                             error={!!formState.errors[field.name]}
                             helperText={formState.errors[field.name]?.message || ""}
                             {...field}
                             multiline={fields.mul}
+                            placeholder={placeholder}
                         />
-                        // <textarea
-                        //     error={true}
-                        //     {...field}
-                        // />
                     )}
                 />
             </div>

@@ -23,7 +23,7 @@ export function Header() {
             <div className="header-name">
                 <div style={{ justifyContent: "space-between", alignItems: "center", width: 200 }} className="itemfavour-control">
 
-                    <img style={{ marginTop: -10 }} src="https://scontent.fsgn3-1.fna.fbcdn.net/v/t1.15752-9/382628914_1364892494099796_5679409985926550937_n.png?_nc_cat=111&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Lg_T6h9iJBAAX9ItHWv&_nc_ht=scontent.fsgn3-1.fna&oh=03_AdSoIA6Hbh4AHL-YPeNK6lNe7eHxgMcZDEWY_bNwhpeeLw&oe=653DF495" />
+                    <img style={{ marginTop: -10 }} />
                     <h1> D & Đ  </h1>
 
                 </div>
@@ -37,10 +37,10 @@ export function Header() {
                         <input type="text" className="form-control" placeholder="Search" />
                     </div>
 
-                    <FontAwesomeIcon style={{ padding: 10 }} icon={faUser} />
+                    <FontAwesomeIcon style={{ padding: 10, cursor: "pointer" }} icon={faUser} />
 
                     <Link to='/cart' onClick={ScrollToTop}>
-                        <FontAwesomeIcon style={{ padding: 10, }} color="#000" cursor="pointer" icon={faStore} />
+                        <FontAwesomeIcon style={{ padding: 10, cursor: "pointer" }} color="#000" icon={faStore} />
                     </Link>
 
                 </div>
