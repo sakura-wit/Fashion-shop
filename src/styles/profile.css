@@ -1,0 +1,16 @@
+.inforuser-contain {
+    margin-top: 160px;
+    max-width: 1000px;
+    height: auto;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: aqua;
+
+}
+
+.inforuser-contain img {
+    margin: 30px;
+}

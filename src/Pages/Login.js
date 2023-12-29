@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-import * as UserService from "../service/UserService"
+import * as UserService from "../service/UserService";
 import { InputSign } from "../components/Field/InputSign";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -12,104 +12,105 @@ import { useDispatch } from "react-redux";
 import { userAction } from "../redux/Slice/UserSlice";
 import { updateProductCur } from "../redux/Slice/ProductSlice";
 
-
 export function LoginPage() {
-    // const dataProductCurrent = useSelector((state) => state.product.productCurrent)
+  // const dataProductCurrent = useSelector((state) => state.product.productCurrent)
 
-    var a1 = [1, 2, 3]
-    var m1 = [...a1]
-    var a2 = [7, 8, 9]
+  const { control, handleSubmit, formState } = useForm({});
 
-    a1 = [...a1, ...a2]
+  const [dataResponse, setDataResponse] = useState({
+    status: "none",
+  });
 
-    console.log("arrayyyyy", a1);
+  const navigate = useNavigate();
 
-    const { control, handleSubmit, formState } = useForm({
-    })
+  const fields = [
+    { name: "email" },
+    { name: "password" }
+  ];
 
-    const [dataResponse, setDataResponse] = useState({
-        status: "none"
-    })
+  const dispash = useDispatch();
 
-    const navigate = useNavigate()
+  const onSubmit = async (data) => {
+    const res = await UserService.getUserApi.signinUser(data);
+    console.log("res", res);
+    const token = jwtDecode(res.access_token);
+    console.log(token.payload.id);
 
-    const fields = [
-        { name: "email" },
-        { name: "password" }
+    const dataUser = await UserService.getUserApi.getDetailUser(
+      token.payload.id
+    );
+    // console.log('dataUser', dataUser.data);
+    dispash(userAction.update(dataUser.data));
 
-    ]
-
-    const dispash = useDispatch()
-
-    const onSubmit = async (data) => {
-
-        const res = await UserService.getUserApi.signinUser(data)
-        console.log('res', res);
-        const token = jwtDecode(res.access_token)
-        console.log(token.payload.id);
-
-        const dataUser = await UserService.getUserApi.getDetailUser(token.payload.id)
-        // console.log('dataUser', dataUser.data);
-        dispash(userAction.update(dataUser.data))
-
-        if (dataUser.data.cart !== undefined) {
-            dispash(updateProductCur([...dataUser.data.cart]))
-        }
-
-
-
-        setDataResponse(res)
-        if (res.status === "OK") {
-            // console.log("okeeeee");
-            return navigate("/")
-        }
+    if (dataUser.data.cart !== undefined) {
+      dispash(updateProductCur([...dataUser.data.cart]));
     }
 
+    setDataResponse(res);
+    if (res.status === "OK") {
+      // console.log("okeeeee");
+      return navigate("/");
+    }
+  };
 
+  useEffect(() => {
+    console.log("dataResponse", dataResponse.status);
+  }, [dataResponse]);
 
+  window.scrollTo({
+    top: 0,
+  })
 
-    useEffect(() => {
-        console.log('dataResponse', dataResponse.status);
-    }, [dataResponse])
+  return (
+    <div style={{ marginTop: 160 }} className="loginpage-contain">
+      <div className="wrapper">
+        <form onSubmit={handleSubmit(onSubmit)} action="">
+          <h1>Login</h1>
+          <div className="input-box">
+            {/* <input type="text" placeholder="Username" required /> */}
+            <InputSign
+              control={control}
+              formState={formState}
+              fields={fields[0]}
+              placeholder={fields[0].name}
+            />
+            <i className="bx bxs-user"></i>
+          </div>
 
-
-    return (
-
-
-
-        <div style={{ marginTop: 160 }} className="loginpage-contain">
-
-            <div className="wrapper">
-                <form onSubmit={handleSubmit(onSubmit)} action="">
-                    <h1>Login</h1>
-                    <div className="input-box">
-                        {/* <input type="text" placeholder="Username" required /> */}
-                        <InputSign control={control} formState={formState} fields={fields[0]} placeholder={fields[0].name} />
-                        <i className='bx bxs-user'></i>
-                    </div>
-
-                    <div className="input-box">
-                        <InputSign control={control} formState={formState} fields={fields[1]} placeholder={fields[1].name} />
-                        {/* <input type="password" placeholder="Password" required /> */}
-                        <i className="bx bxs-lock-alt"></i>
-                    </div>
-                    <div className="remember-forget">
-                        <label><input type="checkbox" />Remember account</label>
-                        <a>Forgot password</a>
-                    </div>
-                    <button type="submit" className="btn">Login</button>
-                    <div className="or">
-                        <h5>---OR---</h5>
-                    </div>
-                    <div className="btnor">
-                        <button className="btnfb">Facebook</button>
-                        <button className="btngg">Google</button>
-                    </div>
-                    <div className="register-link">
-                        <p>Do not have an account?<a>Register</a></p>
-                    </div>
-                </form>
-            </div>
-        </div>
-    )
+          <div className="input-box">
+            <InputSign
+              control={control}
+              formState={formState}
+              fields={fields[1]}
+              placeholder={fields[1].name}
+            />
+            {/* <input type="password" placeholder="Password" required /> */}
+            <i className="bx bxs-lock-alt"></i>
+          </div>
+          <div className="remember-forget">
+            <label>
+              <input type="checkbox" />
+              Remember account
+            </label>
+            <a>Forgot password</a>
+          </div>
+          <button type="submit" className="btn">
+            Login
+          </button>
+          <div className="or">
+            <h5>---OR---</h5>
+          </div>
+          <div className="btnor">
+            <button className="btnfb">Facebook</button>
+            <button className="btngg">Google</button>
+          </div>
+          <div className="register-link">
+            <p>
+              Do not have an account?<a href="/sign-up">Register</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }

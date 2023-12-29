@@ -8,7 +8,6 @@ import { update } from "../redux/Slice/ProductSlice";
 
 import * as ProductService from '../service/ProductService'
 import { useEffect } from "react";
-import { BoxFilter } from "../components/HomePage/BoxFilter";
 
 
 export function HomePage() {

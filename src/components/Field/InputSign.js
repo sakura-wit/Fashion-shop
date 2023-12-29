@@ -6,7 +6,7 @@ import { Controller } from "react-hook-form";
 
 export function InputSign(props) {
 
-    const { fields, control, formState, style, label, title, change, placeholder } = props;
+    const { fields, control, style, defaultVal, placeholder, readOnly } = props;
 
 
     return (
@@ -21,27 +21,18 @@ export function InputSign(props) {
 
                     name={fields.name}
                     control={control}
-                    defaultValue=''
+                    defaultValue={defaultVal}
                     render={({ field }) => (
-                        // <TextField
-                        //     size="small"
-                        //     id={fields.name}
-                        //     fullWidth
-                        //     label={fields.label}
-                        //     error={!!formState.errors[field.name]}
-                        //     helperText={formState.errors[field.name]?.message || ""}
-                        //     {...field}
-                        //     multiline={fields.mul}
-                        //     placeholder={placeholder}
-                        // />
 
                         <input
-                            style={{ height: 50 }}
-                            required
+
+                            style={style}
+                            // required
                             id={fields.name}
                             label={fields.label}
                             {...field}
                             placeholder={placeholder}
+                            readOnly={readOnly}
                         />
                     )}
                 />

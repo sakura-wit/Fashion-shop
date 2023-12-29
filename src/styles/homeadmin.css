@@ -1,0 +1,22 @@
+.homead-contain {
+    display: flex;
+    margin: auto;
+    margin-top: 160px;
+    background-color: #f2f2f2;
+    width: 100%;
+}
+
+.hoad-products{
+    max-width: 300px;
+    width: 100%;
+    border: solid 1px;
+    margin-left: 10px;
+}
+
+.hoad-detailproducts{
+    display: block;
+    max-width: 800px;
+    width: 100%;
+    border: solid 1px;
+    margin: auto
+}

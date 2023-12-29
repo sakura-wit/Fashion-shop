@@ -17,16 +17,6 @@ import { makeRequest } from "../api/axios/request";
 
 // }
 
-const dataaa = {
-    "cart": [
-        {
-            "_id": "6540a722fbd34714bcb3607d",
-            "name": "product2",
-            "image": "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",
-            "type": "shirt",
-            "price": 199,
-        }]
-}
 
 const dataName = {
     name: "Dattttttheoơ"
@@ -52,7 +42,7 @@ export const getUserApi = {
             data
         }),
     updateUser: (data, id) => {
-        // console.log('datttttttt');
+        console.log('datttttttt');
         if (id._id) {
             makeRequest({
                 url: `/user/update-user/${id._id}`,
