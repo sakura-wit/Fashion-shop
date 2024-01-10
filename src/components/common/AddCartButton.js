@@ -5,10 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProductCur } from "../../redux/Slice/ProductSlice";
 
 import * as UserService from '../../service/UserService'
+import { userAction } from "../../redux/Slice/UserSlice";
 
 export function AddCartButton(props) {
     const dataUpdate = useSelector((state) => state.product.productCurrent)
-    // console.log('dataaaaSend', dataUpdate);
+
+    //test
+    // const dataCartUpdate = useSelector((state) => state.user.dataUser.cart)
+    // console.log('dataCartUpdate', dataCartUpdate);
 
     const idUser = useSelector((state) => state.user.dataUser)
     // console.log('idddd', idUser);
@@ -34,9 +38,7 @@ export function AddCartButton(props) {
     const handleUpdateCart = () => {
         // console.log("dataaaUpdate", daata);
         dispatch(updateProductCur([data]))
-
-
-
+        dispatch(userAction.updateCart([data]))
 
     }
     return (

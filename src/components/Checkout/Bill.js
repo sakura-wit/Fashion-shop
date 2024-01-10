@@ -4,9 +4,14 @@ import { ListGroupItem } from "../common/ListGroupItem";
 import { ListGroup } from "../common/ListGroup";
 import { useState } from "react";
 
-export function Bill() {
+export function Bill(props) {
+
+    const { dataCheckout } = props
+    console.log('dataCheckouttttttt', dataCheckout);
 
     const [selectedOption, setSelectedOption] = useState(null);
+
+    var totalPrice = 0;
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
@@ -27,7 +32,32 @@ export function Bill() {
                     <p>TẠM TÍNH</p>
                 </MDBListGroupItem>
 
+                {
+                    dataCheckout?.map((val, key) => {
+                        totalPrice += val.price
+                        return (
+                            <MDBListGroupItem key={key} style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                paddingBottom: 0
+                            }} >
+                                <p> {val.name} </p>
+                                <p style={{ fontWeight: "bold" }}> {val.price}đ </p>
+                            </MDBListGroupItem>
+                        )
+                    })
+                }
+
                 <MDBListGroupItem style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingBottom: 0
+                }} >
+                    <p>New shirt blue </p>
+                    <p style={{ fontWeight: "bold" }}> 111111đ </p>
+                </MDBListGroupItem>
+
+                {/* <MDBListGroupItem style={{
                     display: "flex",
                     justifyContent: "space-between",
                     paddingBottom: 0
@@ -74,7 +104,7 @@ export function Bill() {
                 }}>
                     <p> Baggy Bad Guy</p>
                     <p style={{ fontWeight: "bold" }} > 450.000đ </p>
-                </MDBListGroupItem>
+                </MDBListGroupItem> */}
 
                 <MDBListGroupItem style={{
                     display: "flex",
@@ -83,7 +113,7 @@ export function Bill() {
                     fontWeight: 500
                 }}>
                     <p>Tạm tính</p>
-                    <p style={{ fontWeight: "bold" }} >123456789</p>
+                    <p style={{ fontWeight: "bold" }} >{totalPrice}</p>
                 </MDBListGroupItem>
 
                 <MDBListGroupItem style={{
@@ -102,7 +132,7 @@ export function Bill() {
                     fontWeight: 500
                 }}>
                     <p>Tổng</p>
-                    <p>123456789</p>
+                    <p>{totalPrice + 20000}đ</p>
                 </MDBListGroupItem>
 
                 <MDBListGroupItem style={{

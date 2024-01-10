@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SlideShowDetails } from "./SlideShowDetail";
 import { ScrollView } from "../common/ScrollView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,20 +6,49 @@ import { faBagShopping, faPenRuler } from "@fortawesome/free-solid-svg-icons";
 import { AddCartButton, BuyButton } from "../common/AddCartButton";
 import { ScrollToTop } from "../common/useScrollToTop";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { productSlice, setCheckpay, setDetaislProduct, setProductCheckout } from "../../redux/Slice/ProductSlice";
 
 export function SelectProduct() {
 
     const dataDetailProduct = useSelector((state) => state.product.productDetail)
     console.log('dataDetailProduct', dataDetailProduct);
 
+    // const [productPay, setProductPay] = useState([])
+
+    var payment = []
+
+    const onClick = (val) => {
+        console.log('onClick', val.target.value);
+    }
+
+    const dispash = useDispatch()
+
+    // {
+    //     name: dataDetailProduct.name,
+    //     price: dataDetailProduct.price
+    // }
+
+    const changeCheckPay = () => {
+
+        payment = [{
+            name: dataDetailProduct.name,
+            price: dataDetailProduct.price
+        }]
+
+        dispash(setProductCheckout(payment))
+        console.log('productPay', payment);
+        dispash(setCheckpay("siglePay"))
+
+    }
+
     return (
         <>
 
             <div className="de-selectProduct-contain">
-                <SlideShowDetails image={dataDetailProduct.imageDetail} />
+                <SlideShowDetails image={dataDetailProduct.imageView} />
                 <div className="de-detailselect-contain">
-                    <h4>{dataDetailProduct.description}</h4>
+                    <h4>{dataDetailProduct.name}</h4>
                     <span style={{ padding: 8, textAlign: "center" }}>{dataDetailProduct.hash}</span>
 
                     {/* Price */}
@@ -32,18 +61,26 @@ export function SelectProduct() {
                         marginTop: 10
                     }}>
                         <p>Gía</p>
-                        <p>445.000 đ</p>
+                        <p>{dataDetailProduct.price}đ</p>
                     </div>
+
+
 
                     {/* Size option */}
                     <div className="de-selectsize-contain">
 
-                        <select defaultValue="selected" className="de-selectsize">
+                        <select onChange={onClick} defaultValue="selected" className="de-selectsize">
                             <option value="selected"> Size </option>
-                            <option value="opt1">1</option> -
-                            <option value="opt2" >2</option>
-                            <option value="opt3" >3</option>
-                            <option value="opt4">4</option>
+                            {
+                                dataDetailProduct.size?.map((val, key) => {
+                                    return (
+                                        <option key={key} value={val}>{val}</option>
+
+                                    )
+                                })
+
+                            }
+
                         </select>
 
                         <div>
@@ -52,8 +89,9 @@ export function SelectProduct() {
                         </div>
                     </div>
 
+
                     <div style={{ display: "flex", justifyContent: 'space-between' }}>
-                        <Link to='/checkout' onClick={ScrollToTop}>
+                        <Link to="/checkout" dataproduct="nguyenvandat" onClick={changeCheckPay}>
                             <button
                                 style={{ width: 180 }}
                                 className="buybut-control" >Đặt hàng ngay
@@ -66,16 +104,10 @@ export function SelectProduct() {
                             data={dataDetailProduct}
                             style={{ width: 180 }}
                             title="Thêm vào giỏ hàng" />
-                        {/* <button
-                            style={{ width: 180 }}
-                            className="buybut-control" >Thêm vào giỏ hàng
-                            <FontAwesomeIcon className="buybut-control-icon"
-                                icon={faBagShopping}
-                                style={{ color: "#000", marginLeft: 10 }} /></button> */}
                     </div>
 
 
-                    <ScrollView />
+                    <ScrollView data={dataDetailProduct} />
                 </div>
 
             </div>

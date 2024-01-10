@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { update } from "../redux/Slice/ProductSlice";
 
 import * as ProductService from '../service/ProductService'
+import * as UserService from '../service/UserService'
 import { useEffect } from "react";
 
 
@@ -31,9 +32,18 @@ export function HomePage() {
     async function getData() {
         const res = await ProductService.getProductApi.getAllProduct()
         dispash(update(res.data))
-        // return res.data
+        return res.data
 
     }
+
+
+
+    // const data1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiNjU4ZmM1ZjdhNGQxMDg4NzQyYTRmNjkyIiwiaXNBZG1pbiI6dHJ1ZX0sImlhdCI6MTcwNDE4MjYzMCwiZXhwIjoxNzM1NzE4NjMwfQ.DK56j8Z3CeZwe14qXlmz2JPbeL_mjLShwyzOjTnZxo4'
+
+    // async function refresh(data1) {
+    //     const data = await UserService.getUserApi.refreshToken(data1)
+    //     console.log('refreshtokennnn', data.access_token);
+    // }
 
     // var o1 = { dat: "name" }
     // var o2 = { bc: "name1" }
@@ -42,7 +52,7 @@ export function HomePage() {
 
     useEffect(() => {
         // await dispash(update(getData))
-
+        // refresh(data1)
         getData()
     }, [])
 

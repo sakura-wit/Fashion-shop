@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { set } from "react-hook-form";
-import { deleteProductCur, updateProductCur } from "../redux/Slice/ProductSlice";
+import { deleteProductCur, setCheckpay, setProductCheckout, updateProductCur } from "../redux/Slice/ProductSlice";
 import * as UserService from '../service/UserService'
 
 export function ShoppingCart() {
@@ -21,6 +21,7 @@ export function ShoppingCart() {
 
     const [listCart, setListCart] = useState(dataProductCart)
     console.log(listCart);
+
 
     useEffect(() => {
         console.log('dataProductCart', dataProductCart);
@@ -41,10 +42,11 @@ export function ShoppingCart() {
             console.log('valueee', newList);
             await updateCart({ data: newList }, idUser)
         }
+    }
 
-
-
-
+    const changeCheckPay = () => {
+        dispash(setProductCheckout(listCart))
+        dispash(setCheckpay("multiPay"))
     }
 
     return (
@@ -77,7 +79,7 @@ export function ShoppingCart() {
 
             })}
 
-            <Link onClick={ScrollToTop} to="/checkout">
+            <Link onClick={changeCheckPay} to="/checkout">
                 <AddCartButton title='Thanh toán' style={{ marginLeft: 180, marginTop: 50 }} />
             </Link>
 

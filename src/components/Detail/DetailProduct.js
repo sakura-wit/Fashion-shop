@@ -1,6 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 export function DetailProduct() {
+
+    const dataDetailProduct = useSelector((state) => state.product.productDetail)
 
     return (
 
@@ -8,6 +11,13 @@ export function DetailProduct() {
             <h2>CHI TIẾT SẢN PHẨM</h2>
 
             <div style={{ display: "flex", margin: "auto" }}>
+                {
+                    dataDetailProduct.imageDetail?.map((val, key) => {
+                        return (
+                            <img key={key} src={val} />
+                        )
+                    })
+                }
                 <img src="https://oldsailor.com.vn/vnt_upload/product/04_2023/d6479940d97a05245c6b1_1.jpg" />
                 <img src="https://oldsailor.com.vn/vnt_upload/product/08_2023/46de42b6a76775392c767.jpg" />
 

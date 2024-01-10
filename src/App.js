@@ -26,7 +26,7 @@ import TestForm from "./Pages/TestForm";
 import { DetailProductPage } from "./Pages/DetailProductPage";
 import { ShoppingCart } from "./Pages/ShoppingCart";
 import { TestRedux } from "./Pages/TestRedux";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { SignPage } from "./Pages/SignPage";
@@ -35,44 +35,115 @@ import { LoginPage } from "./Pages/Login";
 import { RegisterPage } from "./Pages/Register";
 import { HomeAdmin } from "./Pages/HomeAdmin";
 import { InforUser } from "./Pages/InforUser";
+import { jwtDecode } from "jwt-decode";
+import { isJsonString } from "./utils";
+import { useDispatch, useSelector } from "react-redux";
+import * as UserService from './service/UserService'
+import { userAction } from "./redux/Slice/UserSlice";
+import { updateProductCur } from "./redux/Slice/ProductSlice";
+import { intercepterRequest, makeRequest } from "./api/axios/request";
+import { routes } from "./routes";
+import { MainLayout } from "./Layouts/MainLayout";
+
 
 function App() {
-  // useEffect(() => {
-  //   fetchApi()
-  // }, [])
 
-  // const fetchApi = async () => {
-  //   const res = await axios.get(`${process.env.REACT_APP_URL_BACKEND}/product/get-allProduct`)
-  //   return res.data
+  const dispash = useDispatch()
+
+  const oldID = useSelector((state) => state.user.dataUser._id)
+  console.log('old', oldID);
+
+  useEffect(() => {
+    let storageData = localStorage.getItem('access_token')
+
+    // console.log('nguyenvandatttttt', storageData, isJsonString(storageData));
+    if (storageData) {
+
+      const { storageData, decode } = handleDecode()
+      if (decode.payload?.id) {
+        handleGetDetailsUser(decode.payload?.id, storageData)
+      }
+
+    }
+
+  }, [])
+
+
+
+
+
+
+  // async function refresh(data1) {
+  //   const access_token = await UserService.getUserApi.refreshToken(data1)
+  //   console.log(refresh);
   // }
 
-  // const query = useQuery({ queryKey: ['todos'], queryFn: fetchApi })
-  // console.log('query', query);
+
+  const handleDecode = () => {
+    let storageData = localStorage.getItem('access_token')
+    let decode = {}
+    if (storageData) {
+      decode = jwtDecode(storageData)
+      return { decode, storageData }
+    }
+  }
+
+  // UserService.axiosJWT.interceptors.request.use(async (config) => {
+  //   const currentTime = new Date()
+  //   const { decode } = handleDecode()
+  //   console.log('refressstokennnnnn');
+  //   if (decode?.exp < currentTime.getTime() / 1000) {
+  //     // console.log('accesstokennn', data);
+  //     const data = await UserService.getUserApi.refreshToken()
+  //     config.headers['token'] = `Beare ${data?.access_token} `
+  //   }
+
+  //   return config
+  // }, (err) => {
+  //   return Promise.reject(err)
+  // })
+
+
+
+
+  const handleGetDetailsUser = async (id, data) => {
+    try {
+      const dataUser = await UserService.getUserApi.getDetailUser(id, data);
+      dispash(userAction.update(dataUser.data));
+      if (dataUser.data.cart !== undefined) {
+        dispash(updateProductCur([...dataUser.data.cart]));
+      }
+    } catch (error) {
+
+    }
+
+  }
+
+  const user = useSelector((state) => state.user.dataUser)
 
   return (
     <div>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductPage />} />
-        <Route path="/checkout" element={<CheckOut />} />
-        <Route path="/test" element={<TestForm />} />
-        <Route path="/detail" element={<DetailProductPage />} />
-        <Route path="/cart" element={<ShoppingCart />} />
-        <Route path="/sign-in" element={<LoginPage />} />
-        <Route path="/sign-up" element={<RegisterPage />} />
-        <Route path="/admin" element={<HomeAdmin />} />
 
+        {
+          routes?.map((route, key) => {
+            const Pages = route.page
+            const isCheckAuth = !route.isPrivate || user.isAdmin
+            const Layout = route.isShowHeader ? MainLayout : Fragment
+            return (
 
-        {/* Test */}
-        <Route path="/test-redux" element={<TestRedux />} />
-        <Route path="/profile" element={<InforUser />} />
+              <Route key={key} path={isCheckAuth ? route.path : (user.isAdmin ? '/admin' : '/homepage')} element={
+                <Layout>
+                  <Pages />
+                </Layout>
+              } />
 
+            )
+          })
+        }
 
-        {/* <Route path='/detail' element={<DetailPage />} />
-        <Route path='/homepage' element={<HomePage />} /> */}
-        {/* <Route path='/' element={IntroducePage} /> */}
       </Routes>
-    </div>
+    </div >
   );
 }
 

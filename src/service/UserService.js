@@ -1,4 +1,5 @@
 
+import axios from "axios";
 import { makeRequest } from "../api/axios/request";
 
 // export const signupUser = async (data) => {
@@ -17,10 +18,8 @@ import { makeRequest } from "../api/axios/request";
 
 // }
 
+export const axiosJWT = axios.create()
 
-const dataName = {
-    name: "Dattttttheoơ"
-}
 
 export const getUserApi = {
     getAllProduct: () =>
@@ -53,13 +52,52 @@ export const getUserApi = {
         }
 
     },
-    getDetailUser: (data) =>
+    getDetailUser: (data, access_token) =>
         makeRequest({
             url: `/user/getDetails/${data}`,
-            method: 'GET'
+            method: 'GET',
+            headers: {
+                token: `Beare ${access_token}`,
+            }
+
+        }),
+
+    refreshToken: (data) =>
+        makeRequest({
+            url: `/user/refresh-token`,
+            method: 'POST',
+            headers: {
+                token: `Beare ${data}`
+            },
+            // withCredentials: true
+
+        }),
+
+    getAllUser: (data) =>
+        makeRequest({
+            url: '/user/getAll',
+            method: 'GET',
+            headers: {
+                token: `Beare ${data}`
+            }
+        }),
+
+    deleteUser: (data, token) =>
+        makeRequest({
+            url: `/user//delete-user/${data}`,
+            method: 'DELETE',
+            headers: {
+                token: `Beare ${token}`
+            }
         })
 
-
-
-
 }
+
+// export const getDetailUser = async (id, access_token) => {
+//     const res = await axiosJWT.get(`${process.env.REACT_APP_URL_BACKEND}/user/getDetails/${id}`, {
+//         headers: {
+//             token: `Beare ${access_token} `
+//         }
+//     })
+//     return res.data
+// }

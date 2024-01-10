@@ -6,18 +6,23 @@ export function ScrollView(props) {
 
     const [dataList, setDataList] = useState(Array.from({ length: 20 }))
 
+    const { data } = props
+
+    // console.log('branch', data.name);
+
+
     return (
         <div>
             <h4>Content</h4>
             <InfiniteScroll
                 className="section"
-                dataLength={dataList.length}
+                dataLength={data.branch.length}
                 hasMore={true}
                 height={300}
             >
-                {dataList.map((data, key) => {
+                {data.branch?.map((val, key) => {
                     return <div key={key} className="scr-titlescroll-contain">
-                        Title for branch #{key + 1}
+                        {val}
                     </div>
                 })}
 

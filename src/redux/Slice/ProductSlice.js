@@ -5,7 +5,9 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     dataProduct: [],
     productCurrent: [],
-    productDetail: {}
+    productDetail: {},
+    checkPay: '',
+    productCheckout: []
 }
 
 
@@ -25,22 +27,34 @@ export const productSlice = createSlice({
             console.log('loaddddd', newData);
             const New = state
             console.log('newCarttttttt', New);
-            const check = state.productCurrent.some((item) => item._id === action.payload[0]._id)
-            console.log(action.payload.length);
-            if (!check) {
-                const newCart = [...state.productCurrent, ...newData]
-                state.productCurrent = [...newCart]
-                console.log('newwwwDataCart', newCart);
+
+            if (newData.length === 0) {
+                console.log('MANGRONGGGG');
+                state.productCurrent = []
+            } else {
+
+                try {
+                    const check = state.productCurrent.some((item) => item._id === action.payload[0]._id)
+                    console.log(action.payload.length);
+                    if (!check) {
+                        const newCart = [...state.productCurrent, ...newData]
+                        state.productCurrent = [...newCart]
+                        console.log('newwwwDataCart', newCart);
+
+                    }
+
+                    console.log('checkkkkk', check);
+                } catch (error) {
+
+                }
 
             }
 
-            console.log('checkkkkk', check);
+
 
         },
 
         deleteProductCur: (state, action) => {
-            // const check = state.productCurrent.some((item) => item._id === action.payload)
-            // if (check) {
 
             state.productCurrent = [...action.payload]
 
@@ -49,6 +63,15 @@ export const productSlice = createSlice({
 
         setDetaislProduct: (state, action) => {
             state.productDetail = action.payload
+        },
+
+        setCheckpay: (state, action) => {
+            state.checkPay = action.payload
+        },
+
+        setProductCheckout: (state, action) => {
+            const newArrayProduct = [...action.payload]
+            state.productCheckout = newArrayProduct
         }
 
 
@@ -56,7 +79,7 @@ export const productSlice = createSlice({
     }
 })
 
-export const { update, updateProductCur, deleteProductCur, setDetaislProduct } = productSlice.actions
+export const { update, updateProductCur, deleteProductCur, setDetaislProduct, setCheckpay, setProductCheckout } = productSlice.actions
 
 
 export default productSlice.reducer

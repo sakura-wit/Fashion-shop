@@ -34,10 +34,10 @@ export function LoginPage() {
     const res = await UserService.getUserApi.signinUser(data);
     console.log("res", res);
     const token = jwtDecode(res.access_token);
-    console.log(token.payload.id);
+    // console.log(token);
 
     const dataUser = await UserService.getUserApi.getDetailUser(
-      token.payload.id
+      token.payload.id, res.access_token
     );
     // console.log('dataUser', dataUser.data);
     dispash(userAction.update(dataUser.data));
@@ -49,6 +49,8 @@ export function LoginPage() {
     setDataResponse(res);
     if (res.status === "OK") {
       // console.log("okeeeee");
+      localStorage.setItem('access_token', res?.access_token)
+      // dataUser.data.isAdmin ? navigate("/admin") : navigate("/");
       return navigate("/");
     }
   };

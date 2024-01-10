@@ -31,18 +31,6 @@ export function ItemProduct(props) {
 
 
 
-
-    // function ProductInfor() {
-    //     return (
-    //         <div className={`your-component ${isClick ? 'show' : ''}`}
-    //          style={{ backgroundColor: "aqua", marginTop: "-150%", zIndex: 9999 }
-    //         }>
-    //             Nguyễn Văn Đạt
-    //         </div >
-    //     )
-    // }
-
-
     return (
         <div
             onClick={handleClick}

@@ -20,14 +20,16 @@ const queryClient = new QueryClient()
 root.render(
   // <React.StrictMode>
   <Router>
-    <MainLayout>
+    <Provider store={store}>
+      {/* <MainLayout> */}
       <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <App />
-        </Provider>
+
+        <App />
+
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-    </MainLayout>
+      {/* </MainLayout> */}
+    </Provider>
   </Router>
   // </React.StrictMode >
 );

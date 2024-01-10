@@ -2,12 +2,52 @@ import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ScrollToTop } from "../components/common/useScrollToTop";
+import { useDispatch, useSelector } from "react-redux";
+import * as ProductService from '../service/ProductService'
+import { update } from "../redux/Slice/ProductSlice";
+import { Button, Popover } from 'antd';
 
-export function Header() {
+export function Header(props) {
+
+  const { hiddenOption, hiddenCart, hiddenSearch } = props
+
+  const dispash = useDispatch()
+  const user = useSelector((state) => state.user.dataUser.isAdmin)
+  const navigate = useNavigate()
+
+  const handleFilter = async (data) => {
+
+    if (data.key === 'Enter') {
+      const res = await ProductService.getProductApi.getProductFilter(data.target.value)
+      console.log('FilterDataaa', res.data);
+      dispash(update(res.data))
+      // return navigate("/")
+    }
+
+
+
+  }
+
+  const content = (
+    <div>
+      <p>Đăng xuất</p>
+      <Link style={{ color: "black" }} cursor="point" to="/profile">
+        <p>Thông tin cá nhân</p>
+      </Link>
+
+      {user ?
+        <Link style={{ color: "black" }} to='/admin'>
+          <p> Quản lý </p>
+        </Link>
+        : null}
+
+    </div>
+  )
+
   return (
-    <div className="header-contain header-font">
+    <div className="header-contain header-font" style={hiddenOption ? { borderBottom: "solid 1px" } : { border: "none" }}>
       <div className="header-name">
         <div
           style={{
@@ -27,27 +67,35 @@ export function Header() {
 
         <div className="header-search">
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="Search" />
+            <input onKeyDown={handleFilter} type="text" className="form-control" placeholder="Search" />
           </div>
-          <Link to="/profile">
+
+          <Popover placement="bottom" content={content}>
+
             <FontAwesomeIcon
               style={{ padding: 10, cursor: "pointer" }}
               icon={faUser}
               color="#000"
             />
-          </Link>
-          <Link to="/cart" onClick={ScrollToTop}>
-            <FontAwesomeIcon
-              style={{ padding: 10, cursor: "pointer" }}
-              color="#000"
-              icon={faStore}
-            />
-          </Link>
+
+          </Popover>
+
+          {!hiddenCart ?
+            <Link style={{ marginTop: "6px" }} to="/cart" onClick={ScrollToTop}>
+              <FontAwesomeIcon
+                style={{ padding: 10, cursor: "pointer" }}
+                color="#000"
+                icon={faStore}
+              />
+            </Link> : <></>
+          }
+
         </div>
       </div>
 
       <div className="header-option-contain header-dropdown-shirt">
-        <ul className="header-option  ">
+
+        {!hiddenOption ? <ul className="header-option  ">
           {/* <Link style={{ textDecoration: 'none' }} to={"/"}><li>  Trang chủ</li></Link> */}
           <Link
             to={"/"}
@@ -58,23 +106,25 @@ export function Header() {
             <li color="#000">Trang chủ</li>
           </Link>
 
+
+
           <li>Giới thiệu</li>
           <li>Sản phẩm</li>
 
           <li className="dropdown-select">
             Áo
-            <ul className="he-dropdown-list-shirt">
+            {/* <ul className="he-dropdown-list-shirt">
               <li>ÁO THUN</li>
               <li>ÁO SƠ MI</li>
               <li>ÁO POLOS</li>
               <li>HOODIE-SWEATER</li>
               <li>ÁO KHOÁC</li>
-            </ul>
+            </ul> */}
           </li>
 
           <li className="dropdown-select">
             Quẩn
-            <ul className="he-dropdown-list-shirt">
+            {/* <ul className="he-dropdown-list-shirt">
               <li>JEANS</li>
               <li>KAKI</li>
               <li>QUẦN LỬNG</li>
@@ -82,36 +132,36 @@ export function Header() {
               <li>QUẦN NGỦ</li>
               <li>QUẦN TÂY</li>
               <li>UNDERWEAR</li>
-            </ul>
+            </ul> */}
           </li>
 
           <li className="dropdown-select">
             Phụ kiện
             <ul className="he-dropdown-list-shirt">
-              <li>TẤT-VỚ</li>
+              {/* <li>TẤT-VỚ</li>
               <li>BALO</li>
               <li>NÓN</li>
               <li>TÚI</li>
               <li>THẮT LƯNG</li>
               <li>VÍ</li>
               <li>GIÀY</li>
-              <li>DÉP</li>
+              <li>DÉP</li> */}
             </ul>
           </li>
 
           <li className="dropdown-select">
             Bộ sưu tập
-            <ul className="he-dropdown-list-shirt">
+            {/* <ul className="he-dropdown-list-shirt">
               <li>SUMMER COLLECTIONS</li>
               <li>TẾT COLLECTIONS</li>
               <li>WINTER COLLECTIONS</li>
               <li>PRE-FALL COLLECTION</li>
-            </ul>
+            </ul> */}
           </li>
 
           <li className="dropdown-select">
             Dòng sản phẩm
-            <ul className="he-dropdown-list-shirt">
+            {/* <ul className="he-dropdown-list-shirt">
               <li>JEANS</li>
               <li>KAKI</li>
               <li>QUẦN LỬNG</li>
@@ -119,10 +169,13 @@ export function Header() {
               <li>QUẦN NGỦ</li>
               <li>QUẦN TÂY</li>
               <li>UNDERWEAR</li>
-            </ul>
+            </ul> */}
           </li>
-        </ul>
+        </ul> : <></>
+        }
+
+
       </div>
-    </div>
+    </div >
   );
 }
