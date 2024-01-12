@@ -46,7 +46,7 @@ export function SelectProduct() {
         <>
 
             <div className="de-selectProduct-contain">
-                <SlideShowDetails image={dataDetailProduct.imageView} />
+                <SlideShowDetails image={dataDetailProduct.imagePreview} />
                 <div className="de-detailselect-contain">
                     <h4>{dataDetailProduct.name}</h4>
                     <span style={{ padding: 8, textAlign: "center" }}>{dataDetailProduct.hash}</span>

@@ -90,6 +90,7 @@ export function InforUser() {
         changeInfor.name = data.name
         changeInfor.address = data.address
         changeInfor.phone = data.phone
+        changeInfor.avatar = data.avatar
         console.log('changeInfor', changeInfor);
         dispash(userAction.update(changeInfor))
 

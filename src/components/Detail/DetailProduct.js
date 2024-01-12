@@ -18,8 +18,8 @@ export function DetailProduct() {
                         )
                     })
                 }
-                <img src="https://oldsailor.com.vn/vnt_upload/product/04_2023/d6479940d97a05245c6b1_1.jpg" />
-                <img src="https://oldsailor.com.vn/vnt_upload/product/08_2023/46de42b6a76775392c767.jpg" />
+                {/* <img src="https://oldsailor.com.vn/vnt_upload/product/04_2023/d6479940d97a05245c6b1_1.jpg" />
+                <img src="https://oldsailor.com.vn/vnt_upload/product/08_2023/46de42b6a76775392c767.jpg" /> */}
 
             </div>
 

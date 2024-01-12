@@ -28,6 +28,13 @@ export const getProductApi = {
             headers: {
                 token: `Beare ${access}`
             }
+        }),
+
+    createProduct: (data) =>
+        makeRequest({
+            url: `/product/create-product`,
+            method: 'POST',
+            data
         })
 
 

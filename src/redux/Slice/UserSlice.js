@@ -26,20 +26,20 @@ export const userSlice = createSlice({
 
             // {
 
-            //     try {
-            //         const check = state.productCurrent.some((item) => item._id === action.payload[0]._id)
-            //         console.log(action.payload.length);
-            //         if (!check) {
-            //             const newCart = [...state.dataUser.cart, ...newData]
-            //             state.dataUser.cart = [...newCart]
-            //             console.log('newwwwDataCart', newCart);
-
-            //         }
-
-            //         console.log('checkkkkk', check);
-            //     } catch (error) {
+            // try {
+            //     const check = state.productCurrent.some((item) => item._id === action.payload[0]._id)
+            //     console.log(action.payload.length);
+            //     if (!check) {
+            //         const newCart = [...state.dataUser.cart, ...newData]
+            //         state.dataUser.cart = [...newCart]
+            //         console.log('newwwwDataCart', newCart);
 
             //     }
+
+            //     console.log('checkkkkk', check);
+            // } catch (error) {
+
+            // }
 
             // }
         }

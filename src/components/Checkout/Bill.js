@@ -3,6 +3,8 @@ import React from "react";
 import { ListGroupItem } from "../common/ListGroupItem";
 import { ListGroup } from "../common/ListGroup";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { orderAction } from "../../redux/Slice/OrderSlice";
 
 export function Bill(props) {
 
@@ -11,10 +13,14 @@ export function Bill(props) {
 
     const [selectedOption, setSelectedOption] = useState(null);
 
+    const dispatch = useDispatch()
+
     var totalPrice = 0;
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
+        // console.log('setSelectedOption', event.target.value);
+        dispatch(orderAction.updatePaymentMethod(event.target.value))
     };
 
     return (
@@ -34,15 +40,15 @@ export function Bill(props) {
 
                 {
                     dataCheckout?.map((val, key) => {
-                        totalPrice += val.price
+                        totalPrice += val.price * val.amount
                         return (
                             <MDBListGroupItem key={key} style={{
                                 display: "flex",
                                 justifyContent: "space-between",
                                 paddingBottom: 0
                             }} >
-                                <p> {val.name} </p>
-                                <p style={{ fontWeight: "bold" }}> {val.price}đ </p>
+                                <p> {val.name} x ( {val.amount} ) </p>
+                                <p style={{ fontWeight: "bold" }}> {val.price * val.amount}đ </p>
                             </MDBListGroupItem>
                         )
                     })
@@ -57,54 +63,7 @@ export function Bill(props) {
                     <p style={{ fontWeight: "bold" }}> 111111đ </p>
                 </MDBListGroupItem>
 
-                {/* <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }} >
-                    <p>New shirt blue </p>
-                    <p style={{ fontWeight: "bold" }}> 111111đ </p>
-                </MDBListGroupItem>
-                <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }} >
-                    <p> Air Fort 1</p>
-                    <p style={{ fontWeight: "bold" }} >22222</p>
-                </MDBListGroupItem>
-                <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }}>
-                    <p> Jogger 2023 For Men </p>
-                    <p style={{ fontWeight: "bold" }} >250.000đ</p>
-                </MDBListGroupItem>
-                <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }}>
-                    <p> Hoodie Pink 2022 </p>
-                    <p style={{ fontWeight: "bold" }} >120.000đ</p>
-                </MDBListGroupItem>
-                <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }}>
-                    <p> Jeans For Girl </p>
-                    <p style={{ fontWeight: "bold" }} >350.000đ</p>
-                </MDBListGroupItem>
-                <MDBListGroupItem style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    paddingBottom: 0
-                }}>
-                    <p> Baggy Bad Guy</p>
-                    <p style={{ fontWeight: "bold" }} > 450.000đ </p>
-                </MDBListGroupItem> */}
+
 
                 <MDBListGroupItem style={{
                     display: "flex",
@@ -153,8 +112,8 @@ export function Bill(props) {
                         <label className="form-check-label" htmlFor="flexRadioDefault1">
                             <input className="form-check-input" type="radio"
                                 name="flexRadioDefault" id="flexRadioDefault1"
-                                value="option1"
-                                checked={selectedOption === "option1"}
+                                value="Banking"
+                                checked={selectedOption === "Banking"}
                                 onChange={handleChange}
                             />
 
@@ -162,7 +121,7 @@ export function Bill(props) {
                         </label>
 
                         {/* Discription for payment method */}
-                        <div className={`description ${selectedOption === "option1" ? 'show' : ''}`}>
+                        <div className={`description ${selectedOption === "Banking" ? 'show' : ''}`}>
                             This is the description for Option 1.
                         </div>
 
@@ -178,8 +137,8 @@ export function Bill(props) {
                             <input
                                 className="form-check-input" type="radio" name="flexRadioDefault"
                                 id="flexRadioDefault2"
-                                value="option2"
-                                checked={selectedOption === "option2"}
+                                value="COD"
+                                checked={selectedOption === "COD"}
                                 onChange={handleChange}
 
                             />
@@ -188,7 +147,7 @@ export function Bill(props) {
                         </label>
 
                         {/* Discription for payment method */}
-                        <div className={`description ${selectedOption === "option2" ? 'show' : ''}`}>
+                        <div className={`description ${selectedOption === "COD" ? 'show' : ''}`}>
                             This is the description for Option 2.
                         </div>
 
@@ -203,8 +162,8 @@ export function Bill(props) {
                             <input
                                 className="form-check-input" type="radio" name="flexRadioDefault"
                                 id="flexRadioDefault3"
-                                value="option3"
-                                checked={selectedOption === "option3"}
+                                value="Paypall"
+                                checked={selectedOption === "Paypall"}
                                 onChange={handleChange}
                             />
 
@@ -212,7 +171,7 @@ export function Bill(props) {
                         </label>
 
                         {/* Discription for payment method  */}
-                        <div className={`description ${selectedOption === "option3" ? 'show' : ''}`}>
+                        <div className={`description ${selectedOption === "Paypall" ? 'show' : ''}`}>
                             This is the description for Option 3.
                         </div>
 

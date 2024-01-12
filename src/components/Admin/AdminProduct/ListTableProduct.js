@@ -8,7 +8,7 @@ export function ListTableProduct() {
 
     const dataAllProduct = useSelector((state) => state.product.dataProduct)
     const [productSelected, setProductSelected] = useState()
-    let listProduct = dataAllProduct
+    let listProduct = dataAllProduct.slice().reverse()
 
 
     const renderAction = () => {

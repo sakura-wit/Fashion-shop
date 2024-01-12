@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { getBase64 } from "../../../utils";
 import styled from "@emotion/styled";
 import { render } from "@testing-library/react";
+import { faArrowUpAZ } from "@fortawesome/free-solid-svg-icons";
 
 
 const WrapUploadFile = styled(Upload)`
@@ -25,7 +26,13 @@ export function AdminProduct() {
     })
 
     const dataAllProduct = useSelector((state) => state.product.dataProduct)
+    let dataAddProduct = [...dataAllProduct]
     console.log('dataAllProductdataAllProduct', dataAllProduct);
+
+    let dataImageDetail = []
+    let dataImagePreview = []
+    let dataImage = []
+
 
     const dispash = useDispatch()
 
@@ -54,23 +61,58 @@ export function AdminProduct() {
 
     const handleCancel = () => {
         setIsModalOpen(false);
+        form.resetFields()
     };
 
-    const handleSubmit = (data) => {
-        data.name = data.name.file.preview
+    const handleGetPathImageArr = (list, data) => {
+        console.log('pussss', list.fileList);
+        for (var i = 0; i < list.fileList.length; i++) {
+
+            data.push(list.fileList[i].preview)
+        }
+        return data
+    }
+
+    const handleSubmit = async (data) => {
+        data.image = data.image.fileList[0].preview
+        data.imagePreview = handleGetPathImageArr(data.imagePreview, dataImagePreview)
+        data.imageDetail = handleGetPathImageArr(data.imageDetail, dataImageDetail)
+        if (typeof (data.size) === "string") {
+            data.size = await data.size.split(',')
+            // console.log('data.size', data.size);
+        }
+        // data.imageDetail
+        // console.log('dataImagePreview', dataImagePreview);
+        // data.name = data?.name?.file?.preview
+
+        // const res = await ProductService.getProductApi.createProduct(data)
         console.log('dataaaaCreat', data);
+        let dataPush = data
+        dataAddProduct.push(dataPush)
+        // if (res.message === 'SUCCESS') {
+
+        // dispash(update(dataAddProduct))
+        //     setIsModalOpen(false)
+        //     message.info('Tạo product thành công')
+
+        // }
+
+
     }
 
     const [avatar, setAvatar] = useState('')
 
     const handleSelectFile = async ({ fileList }) => {
-        const file = fileList[0]
-        if (file)
-            if (!file?.url && !file?.preview) {
-                file.preview = await getBase64(file.originFileObj);
-            }
+        for (var i = 0; i < fileList.length; i++) {
+            const file = fileList[i]
+            if (file)
+                if (!file?.url && !file?.preview) {
+                    file.preview = await getBase64(file.originFileObj);
+                }
 
-        setAvatar(fileList.lengh != 0 && file?.preview)
+        }
+
+        // setAvatar(fileList.lengh != 0 && file?.preview)
         // console.log('file.preview', file?.preview);
 
     }
@@ -132,10 +174,10 @@ export function AdminProduct() {
                     <Form.Item
                         // initialValue={productSelected?.hash}
                         label="Tên sản phẩm"
-                        name="Tên"
+                        name="name"
                         rules={[
                             {
-                                required: false,
+                                required: true,
 
                             },
                         ]}
@@ -149,7 +191,7 @@ export function AdminProduct() {
                         name="hash"
                         rules={[
                             {
-                                required: false,
+                                required: true,
 
                             },
                         ]}
@@ -163,7 +205,7 @@ export function AdminProduct() {
                         name="type"
                         rules={[
                             {
-                                required: false,
+                                required: true,
                             },
                         ]}
                     >
@@ -176,7 +218,7 @@ export function AdminProduct() {
                         name="price"
                         rules={[
                             {
-                                required: false,
+                                required: true,
                             },
                         ]}
                     >
@@ -189,7 +231,7 @@ export function AdminProduct() {
                         name="countInStock"
                         rules={[
                             {
-                                required: false,
+                                required: true,
                             },
                         ]}
                     >
@@ -202,7 +244,7 @@ export function AdminProduct() {
                         name="rating"
                         rules={[
                             {
-                                required: false,
+                                required: true,
 
                             },
                         ]}
@@ -218,7 +260,7 @@ export function AdminProduct() {
                         name="discount"
                         rules={[
                             {
-                                required: false,
+                                required: true,
 
                             },
                         ]}
@@ -232,7 +274,7 @@ export function AdminProduct() {
                         name="size"
                         rules={[
                             {
-                                required: false,
+                                required: true,
 
                             },
                         ]}
@@ -261,7 +303,7 @@ export function AdminProduct() {
                         name="image"
                         rules={[
                             {
-                                required: false,
+                                required: true,
                             },
                         ]}
                     >
@@ -282,20 +324,20 @@ export function AdminProduct() {
 
                     <Form.Item
                         // initialValue={productSelected?.name}
-                        label="Ảnh chi tiết"
-                        name="image"
+                        label="Ảnh xem trước "
+                        name="imagePreview"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
                     >
                         {/* <Input type="" readOnly={false} /> */}
                         <Upload onChange={handleSelectFile}
+                            maxCount={4}
                             type="drag"
-                            onPreview={(data) => {
-                                // message.info('xemdialog')
-                                console.log('previewImage', data);
-                                // return (
-                                //     <Modal>
-                                //         <p>data</p>
-                                //     </Modal>
-                                // )
+                            onPreview={() => {
+                                message.info('xemdialog')
                             }}
                         >
                             <Button icon={<UploadOutlined />}>Select File</Button>
@@ -303,6 +345,28 @@ export function AdminProduct() {
 
                     </Form.Item>
 
+                    <Form.Item
+                        // initialValue={productSelected?.name}
+                        label="Ảnh chi tiết "
+                        name="imageDetail"
+                        rules={[
+                            {
+                                required: true,
+                            },
+                        ]}
+                    >
+                        {/* <Input type="" readOnly={false} /> */}
+                        <Upload onChange={handleSelectFile}
+                            maxCount={2}
+                            type="drag"
+                            onPreview={() => {
+                                message.info('xemdialog')
+                            }}
+                        >
+                            <Button icon={<UploadOutlined />}>Select File</Button>
+                        </Upload>
+
+                    </Form.Item>
 
 
 

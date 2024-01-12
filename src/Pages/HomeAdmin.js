@@ -12,6 +12,8 @@ import { Menu } from 'antd';
 import { Header } from '../Layouts/Header';
 import { AdminUser } from '../components/Admin/AdminUser/AdminUser';
 import { AdminProduct } from '../components/Admin/AdminProduct/AdminProduct';
+import { AdminOrder } from '../components/Admin/AdminOrder/AdminOrder';
+import { AdminOrderConfirmed } from '../components/Admin/AdminOrder/AdminOrderConfirmed';
 
 function getItem(label, key, icon, children, type) {
   return {
@@ -32,22 +34,15 @@ export function HomeAdmin() {
 
   const items = [
     getItem('Người dùng', 'user', <UserOutlined />,
-      // getItem('Option 1', '1'),
-      // getItem('Option 2', '2'),
-      // getItem('Option 3', '3'),
-      // getItem('Option 4', '4'),
+
     ),
     getItem('Sản phẩm', 'product', <AppstoreOutlined />,
-      // getItem('Option 5', '5'),
-      // getItem('Option 6', '6'),
-      // getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
+
     ),
-    // getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-    //   getItem('Option 9', '9'),
-    //   getItem('Option 10', '10'),
-    //   getItem('Option 11', '11'),
-    //   getItem('Option 12', '12'),
-    // ]),
+    getItem('Đơn hàng', 'order', <SettingOutlined />, [
+      getItem('Đã xác nhận', 'confirmed'),
+      getItem('Chưa xác nhận', 'pending'),
+    ]),
   ];
 
   const renderPage = (key) => {
@@ -61,6 +56,15 @@ export function HomeAdmin() {
           <AdminProduct />
         )
 
+      case 'confirmed':
+        return (
+          <AdminOrderConfirmed />
+        )
+
+      case 'pending':
+        return (
+          <AdminOrder />
+        )
       default:
         return <></>
     }

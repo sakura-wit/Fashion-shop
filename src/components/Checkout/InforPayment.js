@@ -6,41 +6,84 @@ import schema from "../../schema";
 import { useState } from "react";
 import { useEffect } from "react";
 import { AddCartButton, BuyButton } from "../common/AddCartButton";
+import { OrderButton } from "./OrderButton";
+import { useSelector } from "react-redux";
+import * as OrderService from '../../service/OrderService'
 
 
 
 
-export function InforPayment() {
+export function InforPayment(props) {
+
+    const user = useSelector((state) => state.user.dataUser)
+    const paymentMethod = useSelector((state) => state.order.paymentMethod)
+
+    const { orderItem } = props
+
+    const shippingPrice = 20000
 
     const fields = [
         { name: "firstName", label: "Tên*" },
         { name: "lastName", label: "Họ" },
         { name: "compName", label: "Tên công ty" },
         { name: "address", label: "Địa chỉ*" },
-        { name: "phoneNumber", label: "Số điện thoại*" },
+        { name: "phone", label: "Số điện thoại*" },
         { name: "email", label: "Email*" },
         { name: "note", label: "Ghi chú", mul: true },
+        { name: "city", label: "Tên tỉnh/Thành phố*", },
         // Thêm các trường khác nếu cần
     ];
 
-    // const [field, setField] = useState({
-    //     name: "",
-    //     label: ""
-    // })
-
-
-
-    // useEffect(() => {
-    //     setField("first", 'alo');
-    //     console.log(field)
-    // }, [])
 
     const { control, handleSubmit, formState } = useForm({
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = (values) => {
-        console.log("values", values)
+
+
+
+    const onSubmit = async (values) => {
+
+        //get Shipping address
+        const shippingAddress = {}
+        shippingAddress.fullName = values.lastName + ' ' + values.firstName
+        shippingAddress.address = values.address
+        shippingAddress.phone = values.phone
+        shippingAddress.city = values.city
+        console.log('dataaaInformation', shippingAddress);
+
+        //Items Price
+        var itemsPrice = 0
+        for (var i = 0; i < orderItem.length; i++) {
+            itemsPrice += orderItem[i].price * orderItem[i].amount
+
+        }
+        console.log('itemsPrice', itemsPrice);
+
+        let totalPrice = 20000 + itemsPrice
+
+        const dateCurrent = new Date()
+
+        const data = {
+            orderItems: orderItem,
+            email: user.email,
+            name: user.name,
+            shippingAddress: shippingAddress,
+            paymentMethod: paymentMethod,
+            itemsPrice: itemsPrice,
+            shippingPrice: 20000,
+            totalPrice: totalPrice,
+            user: user._id,
+            isPaid: false,
+            paidAt: dateCurrent.getDate(),
+            isDelivered: false,
+            confirm: "Pending"
+        }
+
+        console.log('dataCreateeeOrderr', data);
+
+        const res = await OrderService.processOrderApi.createNewOrder(data)
+        console.log('ressssss', res);
     }
 
     return (
@@ -87,10 +130,20 @@ export function InforPayment() {
                     fields={fields[2]}
                     control={control}
                     formState={formState}
-                    type="email" title="Tên công ty" />
+                    type="text" title="Tên công ty" />
             </div>
 
-
+            {/* City */}
+            <div>
+                <InputTextGroup
+                    style={{
+                        width: 320
+                    }}
+                    fields={fields[7]}
+                    control={control}
+                    formState={formState}
+                    title="Tên tỉnh/Thành phố" />
+            </div>
 
             {/* phone/ email */}
             <div style={{
@@ -148,10 +201,10 @@ export function InforPayment() {
                     fields={fields[6]}
                     control={control}
                     formState={formState}
-                    title="Địa chỉ email*" place="Địa chỉ" />
+                />
             </div>
 
-            <AddCartButton title='Thanh toán' />
+            <OrderButton title='Đặt hàng' />
 
         </form >
     )

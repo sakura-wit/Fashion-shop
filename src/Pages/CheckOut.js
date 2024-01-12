@@ -15,6 +15,8 @@ export function CheckOut(props) {
     const dataCheckout = useSelector((state) => state.product.productCheckout)
     console.log('dataCheckout', dataCheckout);
 
+    const orderItem = useSelector((state) => state.order.orderItem)
+    console.log('orderItem', orderItem);
 
     // var n = [1]
     // var a = []
@@ -36,8 +38,8 @@ export function CheckOut(props) {
     return (
 
         <div className="checkout-contain" >
-            <InforPayment />
-            <Bill dataCheckout={dataCheckout} />
+            <InforPayment orderItem={orderItem} />
+            <Bill dataCheckout={orderItem} />
 
         </div>
     )

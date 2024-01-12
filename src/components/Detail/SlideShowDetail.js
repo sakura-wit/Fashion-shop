@@ -4,6 +4,7 @@ import Slider from "react-slick";
 export function SlideShowDetails(props) {
 
     const { image } = props
+    // console.log('imageimage', image);
 
     // const dot = [
     //     "https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg",

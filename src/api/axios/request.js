@@ -18,7 +18,7 @@ const intercepterError = async (err) => {
 }
 
 const intercepterResponse = async (response) => {
-    console.log('nguyenvandatheo', response.data);
+    // console.log('nguyenvandatheo', response.data);
     return response?.data
 
 }

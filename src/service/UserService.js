@@ -41,14 +41,14 @@ export const getUserApi = {
             data
         }),
     updateUser: (data, id) => {
-        console.log('datttttttt');
+        console.log('datttttttt', data);
         if (id._id) {
             makeRequest({
                 url: `/user/update-user/${id._id}`,
                 method: 'PUT',
                 data
             })
-            console.log('khongronggg');
+            console.log('khongronggg', data);
         }
 
     },
