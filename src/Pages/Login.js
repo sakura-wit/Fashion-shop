@@ -11,10 +11,12 @@ import { jwtDecode } from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { userAction } from "../redux/Slice/UserSlice";
 import { updateProductCur } from "../redux/Slice/ProductSlice";
+import { Spin } from "antd";
 
 export function LoginPage() {
   // const dataProductCurrent = useSelector((state) => state.product.productCurrent)
 
+  const [isLoading, setIsLoading] = useState(false)
   const { control, handleSubmit, formState } = useForm({});
 
   const [dataResponse, setDataResponse] = useState({
@@ -30,7 +32,9 @@ export function LoginPage() {
 
   const dispash = useDispatch();
 
+
   const onSubmit = async (data) => {
+    setIsLoading(true)
     const res = await UserService.getUserApi.signinUser(data);
     console.log("res", res);
     const token = jwtDecode(res.access_token);
@@ -39,6 +43,7 @@ export function LoginPage() {
     const dataUser = await UserService.getUserApi.getDetailUser(
       token.payload.id, res.access_token
     );
+    setIsLoading(false)
     // console.log('dataUser', dataUser.data);
     dispash(userAction.update(dataUser.data));
 
@@ -64,7 +69,11 @@ export function LoginPage() {
   })
 
   return (
+
     <div style={{ marginTop: 160 }} className="loginpage-contain">
+      {isLoading && <div className="loading">
+        <Spin />
+      </div>}
       <div className="wrapper">
         <form onSubmit={handleSubmit(onSubmit)} action="">
           <h1>Login</h1>
@@ -96,9 +105,13 @@ export function LoginPage() {
             </label>
             <a>Forgot password</a>
           </div>
-          <button type="submit" className="btn">
-            Login
-          </button>
+          <div>
+
+            <button type="submit" className="btn">
+              Login
+            </button>
+          </div>
+
           <div className="or">
             <h5>---OR---</h5>
           </div>

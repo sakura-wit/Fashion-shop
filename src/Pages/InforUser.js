@@ -26,8 +26,6 @@ export function InforUser() {
     // })
 
     const inforUser = useSelector((state) => state.user.dataUser)
-    let dataInforUser = inforUser
-    var changeInfor = { ...inforUser }
     const [dataUpdate, setDataUpdate] = useState(inforUser)
 
 
@@ -36,37 +34,6 @@ export function InforUser() {
     // console.log('dataUserrrInfor', inforUser);
 
     const dispash = useDispatch()
-
-    const { control, handleSubmit, formState } = useForm({})
-
-    const fields = [
-        { name: 'name' },
-        { name: 'email' },
-        { name: 'phone' },
-        { name: 'address' },
-    ]
-
-    // const testOb = {
-    //     dataTest: {}
-    // }
-
-    // testOb.dataTest = {
-    //     name: 'datnguyen'
-    // }
-
-
-    // console.log('testttOB', testOb);
-
-    const onSubmit = async (data) => {
-        // await UserService.getUserApi.updateUser(data, inforUser)
-        // console.log('INFORRR', data);
-
-        // changeInfor.name = data.name
-        // changeInfor.address = data.address
-        // changeInfor.phone = data.phone
-        // dispash(userAction.update(changeInfor))
-        // console.log('dataUpdate', data);
-    }
 
     const [form] = Form.useForm()
 
@@ -88,22 +55,26 @@ export function InforUser() {
         console.log('dataUpdateInforUser', data);
 
         const res = await UserService.getUserApi.updateUser(data, inforUser)
-        changeInfor.name = data.name
-        changeInfor.address = data.address
-        changeInfor.phone = data.phone
-        changeInfor.avatar = data.avatar
-        console.log('changeInfor', changeInfor);
-        dispash(userAction.update(changeInfor))
+
+        setDataUpdate({
+            ...dataUpdate,
+            name: data.name,
+            address: data.address,
+            phone: data.phone,
+            avatar: data.avatar ? data.avatar : avatar,
+        })
 
         if (res?.message === 'SUCCESS') {
             message.info('Cập nhật thông tin thành công')
         }
     }
 
-    // const handleUpdate = async () => {
-    //     await UserService.getUserApi.updateUser(dataUpdate, inforUser)
-    //     dispash(userAction.update(dataUpdate))
-    // }
+    useEffect(() => {
+        if (dataUpdate)
+            dispash(userAction.update(dataUpdate))
+    }, [dataUpdate])
+
+
 
     useEffect(() => {
         // Cập nhật giá trị ban đầu cho form khi inforUser thay đổi
@@ -141,12 +112,11 @@ export function InforUser() {
                     display: "flex",
                     flexWrap: "wrap",
 
-                    // justifyContent: "space-between"
                 }}
             >
 
                 <Form.Item
-                    initialValue={inforUser?.avatar}
+                    initialValue={dataUpdate?.avatar}
                     // label="Tên"
                     name="avatar"
                     rules={[
@@ -160,24 +130,11 @@ export function InforUser() {
                         onChange={handleSelectFile}
                         maxCount={1}
                         style={{ display: "block" }} >
-
-                        {/* <img style={{ objectFit: "contain", width: 200, height: 200 }}
-                            alt="avatar"
-                            src={avatar ? avatar : "https://nupet.vn/wp-content/uploads/2023/10/anh-avatar-cute-meo-nupet-2.jpg"}
-                        /> */}
-                        {/* <div style={{ maxWidth: 200, maxHeight: 200, width: "100%", height: "100%" }}> */}
                         {avatar ? (<img style={{ cursor: "pointer", border: "solid 1px #ccc", padding: 3, width: 200, height: 200, objectFit: "contain" }}
                             src={avatar} alt="avarta"></img>) : <img
                             style={{ cursor: "pointer", border: "solid 1px #ccc", padding: 3, objectFit: "contain", width: 200, height: 200 }}
                             alt="avatar"
-                            src={inforUser.avatar} />}
-                        {/* </div> */}
-                        {/* <img
-                            style={{ objectFit: "contain", width: 200, height: 200 }}
-                            alt="avatar"
-                            src={inforUser.avatar} /> */}
-                        {/* {avatar && (<img style={{ width: 200, height: 200, objectFit: "contain" }}
-                            src={avatar} alt="avarta"></img>)} */}
+                            src={dataUpdate.avatar} />}
                         <div style={{ maxWidth: 130, width: "100%", margin: "auto" }}>
                             <Button icon={<UploadOutlined />}>Select File</Button>
                         </div>
@@ -191,7 +148,7 @@ export function InforUser() {
                     <div style={{ marginRight: 50, marginTop: 50 }}>
 
                         <Form.Item
-                            initialValue={dataInforUser?.name}
+                            initialValue={dataUpdate?.name}
                             label="Tên người dùng"
                             name="name"
                             rules={[
@@ -205,7 +162,7 @@ export function InforUser() {
                         </Form.Item>
 
                         <Form.Item
-                            initialValue={inforUser?.email}
+                            initialValue={dataUpdate?.email}
                             label="Email"
                             name="email"
                             rules={[
@@ -220,7 +177,7 @@ export function InforUser() {
                     </div>
                     <div style={{ marginTop: 50 }}>
                         <Form.Item
-                            initialValue={inforUser?.phone}
+                            initialValue={dataUpdate?.phone}
                             label="Số điện thoại"
                             name="phone"
                             rules={[
@@ -234,7 +191,7 @@ export function InforUser() {
                         </Form.Item>
 
                         <Form.Item
-                            initialValue={inforUser?.address}
+                            initialValue={dataUpdate?.address}
                             label="Địa chỉ"
                             name="address"
                             rules={[
@@ -260,71 +217,5 @@ export function InforUser() {
 
         </div >
 
-        // <div className="inforuser-contain">
-
-        //     <img
-        //         style={{ objectFit: "contain", width: 200, height: 200 }}
-        //         src="https://nupet.vn/wp-content/uploads/2023/10/anh-avatar-cute-meo-nupet-2.jpg" />
-        //     <form
-        //         onSubmit={handleSubmit(onSubmit)}
-        //         style={{ display: "flex", flexWrap: "wrap", marginTop: 30 }}>
-
-
-
-        //         <div>
-        //             <span>{fields[0].name}</span>
-        //             <InputSign
-        //                 style={{ marginRight: 40, height: 40, width: 250 }}
-        //                 control={control}
-        //                 fields={fields[0]}
-        //                 defaultVal={inforUser.name}
-        //             />
-        //         </div>
-
-
-        //         <div>
-        //             <span>{fields[1].name}</span>
-        //             <InputSign
-        //                 style={{ marginRight: 40, height: 40, width: 250 }}
-        //                 control={control}
-        //                 fields={fields[1]}
-        //                 defaultVal={inforUser.email}
-        //                 readOnly={true}
-        //             />
-        //         </div>
-
-        //         <div>
-        //             <span>{fields[2].name}</span>
-        //             <InputSign
-        //                 style={{ marginRight: 40, height: 40, width: 250 }}
-        //                 control={control}
-        //                 fields={fields[2]}
-        //                 defaultVal={`0${inforUser.phone}`}
-        //             />
-        //         </div>
-
-        //         <div>
-        //             <span>{fields[3].name}</span>
-        //             <InputSign
-        //                 style={{ marginRight: 40, height: 40, width: 250 }}
-        //                 control={control}
-        //                 fields={fields[3]}
-        //                 defaultVal={inforUser.address}
-        //             />
-        //         </div>
-
-        //         <button
-        //             style={{ width: 100, height: 40, marginLeft: 100 }}
-        //         >Lưu</button>
-
-
-        //     </form>
-
-        //     {/* <button
-        //         onClick={handleLogout}
-        //         style={{ width: 200, height: 40 }}
-        //     >Đăng xuất</button> */}
-
-        // </div>
     )
 }

@@ -9,7 +9,6 @@ import { orderAction } from "../../redux/Slice/OrderSlice";
 export function Bill(props) {
 
     const { dataCheckout } = props
-    console.log('dataCheckouttttttt', dataCheckout);
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -19,7 +18,6 @@ export function Bill(props) {
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
-        // console.log('setSelectedOption', event.target.value);
         dispatch(orderAction.updatePaymentMethod(event.target.value))
     };
 

@@ -7,6 +7,8 @@ import { LoginPage } from "../Pages/Login";
 import { ProductPage } from "../Pages/ProductPage";
 import { RegisterPage } from "../Pages/Register";
 import { ShoppingCart } from "../Pages/ShoppingCart";
+import { AoPage } from "../Pages/TypeProduct/AoPage";
+import { QuanPage } from "../Pages/TypeProduct/QuanPage";
 
 
 export const routes = [
@@ -62,6 +64,18 @@ export const routes = [
     {
         path: "/profile",
         page: InforUser,
+        isShowHeader: true
+    },
+
+    {
+        path: "/ao",
+        page: AoPage,
+        isShowHeader: true
+    },
+
+    {
+        path: "/quan",
+        page: QuanPage,
         isShowHeader: true
     },
 

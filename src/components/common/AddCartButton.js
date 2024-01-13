@@ -10,12 +10,7 @@ import { userAction } from "../../redux/Slice/UserSlice";
 export function AddCartButton(props) {
     const dataUpdate = useSelector((state) => state.product.productCurrent)
 
-    //test
-    // const dataCartUpdate = useSelector((state) => state.user.dataUser.cart)
-    // console.log('dataCartUpdate', dataCartUpdate);
-
     const idUser = useSelector((state) => state.user.dataUser)
-    // console.log('idddd', idUser);
 
     const { style, title, onClick, data } = props
 
@@ -30,13 +25,10 @@ export function AddCartButton(props) {
 
     useEffect(() => {
 
-        // const newDataUpdateCar = [...dataUpdate]
-        // console.log('dataupdate', dataUpdate);
         updateCart({ cart: dataUpdate }, idUser)
     }, [dataUpdate])
 
     const handleUpdateCart = () => {
-        // console.log("dataaaUpdate", daata);
         dispatch(updateProductCur([data]))
         dispatch(userAction.updateCart([data]))
 

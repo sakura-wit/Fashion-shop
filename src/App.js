@@ -51,12 +51,10 @@ function App() {
   const dispash = useDispatch()
 
   const oldID = useSelector((state) => state.user.dataUser?._id)
-  console.log('old', oldID);
 
   useEffect(() => {
     let storageData = localStorage.getItem('access_token')
 
-    // console.log('nguyenvandatttttt', storageData, isJsonString(storageData));
     if (storageData) {
 
       const { storageData, decode } = handleDecode()
@@ -69,16 +67,6 @@ function App() {
   }, [])
 
 
-
-
-
-
-  // async function refresh(data1) {
-  //   const access_token = await UserService.getUserApi.refreshToken(data1)
-  //   console.log(refresh);
-  // }
-
-
   const handleDecode = () => {
     let storageData = localStorage.getItem('access_token')
     let decode = {}
@@ -87,24 +75,6 @@ function App() {
       return { decode, storageData }
     }
   }
-
-  // UserService.axiosJWT.interceptors.request.use(async (config) => {
-  //   const currentTime = new Date()
-  //   const { decode } = handleDecode()
-  //   console.log('refressstokennnnnn');
-  //   if (decode?.exp < currentTime.getTime() / 1000) {
-  //     // console.log('accesstokennn', data);
-  //     const data = await UserService.getUserApi.refreshToken()
-  //     config.headers['token'] = `Beare ${data?.access_token} `
-  //   }
-
-  //   return config
-  // }, (err) => {
-  //   return Promise.reject(err)
-  // })
-
-
-
 
   const handleGetDetailsUser = async (id, data) => {
     try {

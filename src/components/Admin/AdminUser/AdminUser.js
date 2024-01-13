@@ -22,17 +22,8 @@ export function AdminUser() {
         dispash(userAction.updateDataAllUser(res.data))
         return res.data
     }
-
-    // const handleGetAll = async () => {
-    //     dataAllUser = await getAllUser(access_token)
-    //     console.log('dataAllUserrrrrr', dataAllUser);
-    // }
-
-
-
     useEffect(() => {
         getAllUser(access_token)
-        // console.log('dataAllUserrrrrr', dataAllUser);
     }, [])
 
     return (
@@ -43,9 +34,9 @@ export function AdminUser() {
                     // onClick={handleGetAll}
                     style={{ margin: 10, marginTop: -5 }}>Xem tất cả</Button> */}
             </div>
-            <Button style={{ width: 150, height: 150 }} >
+            {/* <Button style={{ width: 150, height: 150 }} >
                 <PlusOutlined style={{ fontSize: 50 }} />
-            </Button>
+            </Button> */}
 
             {/* List User */}
             <ListTable />

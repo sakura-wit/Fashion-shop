@@ -1,4 +1,4 @@
-import { Button, Table } from "antd";
+import { Button, Spin, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import * as OrderService from '../../../service/OrderService'
@@ -8,7 +8,7 @@ import { DrawerPend } from "./DrawerPen";
 import { orderAction } from "../../../redux/Slice/OrderSlice";
 
 export function ShoppingCardPend() {
-
+    const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
 
     const user = useSelector((state) => state.user.dataUser)
@@ -18,9 +18,10 @@ export function ShoppingCardPend() {
     let listOrder = orderPending.filter((item) => item.confirm === 'Pending')
 
     async function getOrderPend() {
+        setIsLoading(true)
         const res = await OrderService.processOrderApi.getOrderPendingOfUser(user.email)
-        console.log('res.datares.data', res.data);
         dispatch(orderAction.updateUserOrderPend(res.data))
+        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -30,7 +31,6 @@ export function ShoppingCardPend() {
     //TEST SELECTROW
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const onSelectChange = (newSelectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
         setSelectedRowKeys(newSelectedRowKeys);
     };
     const rowSelection = {
@@ -82,7 +82,9 @@ export function ShoppingCardPend() {
 
     return (
         <div className="shoppingcart-contain">
-
+            {isLoading && <div className="loading">
+                <Spin />
+            </div>}
             <div
                 style={{
                     marginBottom: 16,

@@ -16,14 +16,6 @@ export function SelectProduct() {
 
     const dataDetailProduct = useSelector((state) => state.product.productDetail)
 
-    console.log('dataDetailProduct', dataDetailProduct);
-
-    // localStorage.setItem('dataDetailProduct', dataDetailProduct)
-
-    // useEffect(() => {
-    //     !dataDetailProduct ? dataDetailProduct = localStorage.getItem('dataDetailProduct') : dataDetailProduct
-    // }, [])
-    // const [productPay, setProductPay] = useState([])
 
     var payment = []
 
@@ -42,7 +34,6 @@ export function SelectProduct() {
         }]
 
         dispash(setProductCheckout(payment))
-        console.log('productPay', payment);
         dispash(setCheckpay("siglePay"))
 
     }

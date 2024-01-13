@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import * as PaymentService from '../../service/PaymentService'
 import { PayPalButton } from "react-paypal-button-v2";
 import { orderAction } from "../../redux/Slice/OrderSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -27,7 +29,6 @@ export function InforPayment(props) {
     const orderItem = useSelector((state) => state.order.orderItem)
 
     const cartUser = useSelector((state) => state.product.productCurrent)
-    console.log('state.product.productCurrent', cartUser);
     // const [listCart, setListCart] = useState(cartUser)
 
     const [dataOrder, setDataOrder] = useState()
@@ -66,13 +67,13 @@ export function InforPayment(props) {
 
     const onSubmit = async (values) => {
 
+
         //get Shipping address
         const shippingAddress = {}
         shippingAddress.fullName = values.lastName + ' ' + values.firstName
         shippingAddress.address = values.address
         shippingAddress.phone = values.phone
         shippingAddress.city = values.city
-        console.log('dataaaInformation', shippingAddress);
 
         //Items Price
         var itemsPrice = 0
@@ -80,7 +81,6 @@ export function InforPayment(props) {
             itemsPrice += orderItem[i].price * orderItem[i].amount
 
         }
-        console.log('itemsPrice', itemsPrice);
 
         let totalPrice = 20000 + itemsPrice
 
@@ -105,11 +105,16 @@ export function InforPayment(props) {
         }
 
         dispash(orderAction.updateDataCreateOrder(data))
-        console.log('dataCreateeeOrderr', data);
 
         setDataOrder(data)
 
-        // const res = await OrderService.processOrderApi.createNewOrder(data)
+        if (!(payMethod === 'Paypall' && sdkReady)) {
+            const res = await OrderService.processOrderApi.createNewOrder(data)
+            if (res.message === 'SUCCESS') {
+                message.info('Đặt đơn hàng thành công')
+                navigate('/')
+            }
+        }
 
 
         var listCart = cartUser
@@ -118,13 +123,13 @@ export function InforPayment(props) {
 
             const check = listCart.some((item) => item._id === orderItem[i].product)
             if (check) {
-                console.log('orderItem[i].product', orderItem[i].product);
+
                 const newList = listCart.filter((item) => item._id !== orderItem[i].product)
                 listCart = [...newList]
                 dispash(deleteProductCur([...newList]))
-                console.log('valueee', newList);
+
                 const res = updateCart({ cart: newList }, user._id)
-                // console.log('orderItem.length', orderItem[i]);
+
 
                 if (res?.message === 'update product SUCCESS') {
                     console.log('Xóa sản phẩm thành công')
@@ -133,10 +138,6 @@ export function InforPayment(props) {
             }
         }
 
-        // if (res.message === 'SUCCESS') {
-        //     message.info('Đặt đơn hàng thành công !!!')
-        //     return navigate("/");
-        // }
     }
 
     ///// PROCESS PAYMENT PAYPALL
@@ -146,14 +147,19 @@ export function InforPayment(props) {
     const [sdkReady, setSdkReady] = useState(false)
 
     const onSuccessPaypal = async (details, data) => {
-        dataOrder.isPaid = true
-        const res = await OrderService.processOrderApi.createNewOrder(dataOrder)
-        // console.log('details, data', details, data)
+        console.log('details, data,details, datadetails, data', dataOrder)
+        let newDataOrder = { ...dataOrder }
+        newDataOrder.isPaid = true
+        const res = await OrderService.processOrderApi.createNewOrder(newDataOrder)
         if (res.message === 'SUCCESS') {
             message.info('Đặt hàng thành công')
             return navigate('/')
         }
 
+    }
+
+    const submitOrder = (data) => {
+        console.log(data);
     }
 
     const addPaypalScript = async () => {
@@ -297,9 +303,6 @@ export function InforPayment(props) {
                     style={{
                         width: 700,
                         mul: "true",
-                        // textField: {
-                        //     multiline: true
-                        // }
                     }}
                     fields={fields[6]}
                     control={control}
@@ -310,18 +313,17 @@ export function InforPayment(props) {
             {
                 payMethod === 'Paypall' && sdkReady ? <PayPalButton
                     amount={0.1}
-                    // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                     onSuccess={onSuccessPaypal}
                     onError={(data) => {
                         alert('Error')
-                        // console.log('ErrorError',data);
                     }
                     }
-                    onClick={
-                        handleSubmit(onSubmit)
-                    }
+                    onClick={handleSubmit(onSubmit)}
                 >
-                </PayPalButton> : <OrderButton title='Đặt hàng' />
+                </PayPalButton> : <button onClick={handleSubmit(onSubmit)} className="buybut-control" >Đặt hàng
+                    <FontAwesomeIcon className="buybut-control-icon"
+                        icon={faBagShopping}
+                        style={{ color: "#000", marginLeft: 10 }} /></button>
             }
 
 

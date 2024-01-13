@@ -11,7 +11,6 @@ export function BuyButton(props) {
 
     const handleDetailProduct = () => {
         dispash(setDetaislProduct(data))
-        console.log('datadatadata', data);
         const jsonString = JSON.stringify(data);
         localStorage.setItem('dataDetailProduct', jsonString)
     }

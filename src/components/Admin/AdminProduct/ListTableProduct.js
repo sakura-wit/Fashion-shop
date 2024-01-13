@@ -41,7 +41,6 @@ export function ListTableProduct() {
     ];
 
     const handleDetailProduct = (data) => {
-        console.log('dataProductdataProduct', data);
         setProductSelected(data)
     }
 

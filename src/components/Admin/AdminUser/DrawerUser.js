@@ -13,14 +13,11 @@ export function DrawerUser(props) {
     const { userSelected, listUser } = props
     let newListUser = listUser
 
-    console.log('userSelecteduserSelected', userSelected);
 
     const dispash = useDispatch()
 
     const handleDeleteUser = async (data) => {
-        console.log('dataForm', data);
         const res = await UserSerVice.getUserApi.deleteUser(userSelected._id, access_token)
-        console.log('resssss', res);
         if (res.message === 'detete SUCCESS') {
             message.info('Xóa người dùng thành công')
             onClose();
@@ -30,8 +27,7 @@ export function DrawerUser(props) {
                 const newList = newListUser.filter((item) => item._id !== userSelected._id)
                 newListUser = [...newList]
                 dispash(userAction.updateDataAllUser([...newList]))
-                console.log('valueee', newList);
-                // await UserService.getUserApi.deleteUser(userSelected._id, access_token)
+
             }
 
         }

@@ -11,7 +11,6 @@ export function ListTableOrder(props) {
     const [orderSelected, setOrderSelected] = useState()
 
     const dataAllOrder = useSelector((state) => state.order.dataOrderAdmin)
-    console.log('dataAllOrder', dataAllOrder);
 
     //Đảo ngược list
     let listOrder = dataAllOrder.slice().reverse()
@@ -58,7 +57,6 @@ export function ListTableOrder(props) {
     ];
 
     const handleDetailProduct = (data) => {
-        console.log('dataProductdataProduct', data);
         setOrderSelected(data)
     }
 

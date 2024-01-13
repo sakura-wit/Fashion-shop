@@ -30,7 +30,6 @@ export function AdminOrder() {
     async function getAllOrder() {
         const res = await OrderService.processOrderApi.getOrderPending()
         dispash(orderAction.updateDataOrderAdmin(res.data))
-        console.log('getAllOrder', res.data);
         return res.data
     }
 
@@ -52,7 +51,6 @@ export function AdminOrder() {
     };
 
     const handleOk = (data) => {
-        console.log(data);
         setIsModalOpen(false);
     };
 
@@ -62,7 +60,6 @@ export function AdminOrder() {
     };
 
     const handleGetPathImageArr = (list, data) => {
-        console.log('pussss', list.fileList);
         for (var i = 0; i < list.fileList.length; i++) {
 
             data.push(list.fileList[i].preview)

@@ -13,18 +13,13 @@ export function ShoppingCardDone() {
     const user = useSelector((state) => state.user.dataUser)
 
     const orderPending = useSelector((state) => state.order.userOrderPend)
-    // const [orderPending, setOrderPending] = useState()
+
     let listOrder = orderPending.filter((item) => item.confirm === 'Confirmed')
 
-    console.log('orderPending.filter', listOrder);
-    // const check = newListProduct.some((item) => item._id === orderSelected._id)
-    // if (check) {
-    // const newList = newListProduct.filter((item) => item._id !== orderSelected._id)
-    // }
+
 
     async function getOrderPend() {
         const res = await OrderService.processOrderApi.getOrderPendingOfUser(user.email)
-        console.log('res.datares.data', res.data);
         dispatch(orderAction.updateUserOrderPend(res.data))
     }
 

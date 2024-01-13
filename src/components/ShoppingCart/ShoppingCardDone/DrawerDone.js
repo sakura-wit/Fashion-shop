@@ -1,5 +1,5 @@
 import { DeleteOutlined, QuestionCircleOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { Button, Drawer, Form, Input, Popconfirm, Table, message } from "antd";
+import { Button, Drawer, Form, Input, Popconfirm, Spin, Table, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useState } from "react";
 
@@ -11,6 +11,8 @@ import { orderAction } from "../../../redux/Slice/OrderSlice";
 
 
 export function DrawerDone(props) {
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const { title, orderSelected, listOrder } = props
     let newListProduct = listOrder
@@ -35,15 +37,13 @@ export function DrawerDone(props) {
 
 
     const handleUpdate = async (data) => {
-        console.log('dataFormUpdate', data);
-        console.log('data.size', typeof (data.size));
+
         if (typeof (data.size) === "string") {
             data.size = await data.size.split(',')
-            console.log('data.size', data.size);
         }
-
+        setIsLoading(true)
         const res = await ProductService.getProductApi.updateProduct(data, orderSelected._id)
-        console.log('resssssUpdateProduct', res);
+        setIsLoading(false)
         if (res.message === 'update product SUCCESS') {
             message.info(`Cập nhật thông tin ${data.name} thành công`)
             // onClose()
@@ -51,10 +51,6 @@ export function DrawerDone(props) {
     }
 
     const handleDelete = async (data) => {
-        // console.log('dataaaaaa', data);
-
-        // const res = await OrderService.processOrderApi.updateIsPaid(orderSelected._id)
-        // console.log('orderSelected._id', orderSelected._id)
 
         const check = newListProduct.some((item) => item._id === orderSelected._id)
         if (check) {
@@ -66,23 +62,9 @@ export function DrawerDone(props) {
                 onClose()
                 message.info('Hủy đơn hàng thành công')
             }
-            // dispatch(orderAction.updateDataOrderAdmin([...newList]))
-            // console.log('valueee', newList);
-            // await UserService.getUserApi.deleteUser(userSelected._id, access_token)
+
         }
 
-        // if (res.message === 'update product SUCCESS') {
-        //     message.info(`Xác nhận đơn ${orderSelected._id} thành công`)
-        //     onClose()
-        //     const check = newListProduct.some((item) => item._id === orderSelected._id)
-        //     if (check) {
-        //         const newList = newListProduct.filter((item) => item._id !== orderSelected._id)
-        //         newListProduct = [...newList]
-        //         dispatch(orderAction.updateDataOrderAdmin([...newList]))
-        //         // console.log('valueee', newList);
-        //         // await UserService.getUserApi.deleteUser(userSelected._id, access_token)
-        //     }
-        // }
     }
 
     const renderImage = (data) => {
@@ -115,6 +97,9 @@ export function DrawerDone(props) {
 
     return (
         <>
+            {isLoading && <div className="loading">
+                <Spin />
+            </div>}
             <Button onClick={showDrawer} icon={<UnorderedListOutlined />}>
             </Button>
             <Drawer

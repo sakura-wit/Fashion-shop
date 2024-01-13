@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as UserService from '../../../service/UserService'
 import { deleteProductCur } from "../../../redux/Slice/ProductSlice";
-import { Button, InputNumber, Table } from "antd";
+import { Button, InputNumber, Select, Spin, Table } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import { orderAction } from "../../../redux/Slice/OrderSlice";
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 export function ShoppingCartSelect() {
 
     ///// GIỎ HÀNG
-
+    const [isLoading, setIsLoading] = useState(false)
     const dataProductCart = useSelector((state) => state.product.productCurrent)
     const userCart = useSelector((state) => state.user.dataUser)
     const idUser = useSelector((state) => state.user.dataUser)
@@ -19,10 +19,9 @@ export function ShoppingCartSelect() {
     //LIST DATA FOR TABLE
     const [listCart, setListCart] = useState(dataProductCart)
 
-
-
     const [amountArr, setAmountArr] = useState([])
 
+    const [selectArr, setSelectArr] = useState([])
 
 
 
@@ -41,22 +40,13 @@ export function ShoppingCartSelect() {
             const newList = listCart.filter((item) => item._id !== data._id)
             setListCart(newList)
             dispash(deleteProductCur([...newList]))
-            console.log('valueee', newList);
+
+            setIsLoading(true)
             const res = updateCart({ cart: newList }, idUser)
-
-            // if (res?.message === 'update product SUCCESS') {
-            //     console.log('Xóa sản phẩm thành công')
-
-            // }
+            setIsLoading(false)
         }
 
     }
-
-    // const changeCheckPay = () => {
-    //     dispash(setProductCheckout(listCart))
-    //     dispash(setCheckpay("multiPay"))
-    // }
-
 
     // XỬ LÝ CHO LISTTABLE
     const renderImage = (data) => {
@@ -65,22 +55,7 @@ export function ShoppingCartSelect() {
         )
     }
 
-    useEffect(() => {
-        console.log('changeAmountttt', amountArr);
-    }, [amountArr])
 
-
-
-    // const renderAmount = () => {
-    //     return (
-    //         <InputNumber
-    //             defaultValue={1}
-    //             max={10}
-    //             min={1}
-    //             onChange={changeAmount}
-    //         />
-    //     )
-    // }
 
     const handleInputChange = (value, record) => {
         // Log giá trị của hàng khi InputNumber thay đổi
@@ -90,6 +65,16 @@ export function ShoppingCartSelect() {
         newAmoutArr[record.key] = value
         setAmountArr(newAmoutArr)
     };
+
+    const handleSelectChange = (value, record) => {
+        // Log giá trị của hàng khi InputNumber thay đổi
+        console.log('Changed select:', value);
+        // console.log('Row Data:', record);
+        const newSelectArr = [...selectArr]
+        newSelectArr[record.key] = value
+        console.log('newSelectArrnewSelectArr', newSelectArr);
+        setSelectArr(newSelectArr)
+    }
 
     const renderAction = () => {
 
@@ -109,6 +94,40 @@ export function ShoppingCartSelect() {
         {
             title: 'Tên',
             dataIndex: 'name',
+        },
+        {
+            title: 'Size',
+            dataIndex: 'size',
+            render: (_, record, index) => (
+                <Select
+                    placeholder="Select a person"
+                    optionFilterProp="children"
+                    defaultValue={'S'}
+                    onChange={(value) => handleSelectChange(value, record)}
+                    options={[
+                        {
+                            value: 'S',
+                            label: 'S',
+                        },
+                        {
+                            value: 'M',
+                            label: 'M',
+                        },
+                        {
+                            value: 'L',
+                            label: 'L',
+                        },
+                        {
+                            value: 'XL',
+                            label: 'XL',
+                        },
+                        {
+                            value: 'XXL',
+                            label: 'XXL',
+                        },
+                    ]}
+                />
+            ),
         },
         {
             title: 'Số lượng',
@@ -187,6 +206,7 @@ export function ShoppingCartSelect() {
                 const newOrder = {
                     name: listWithKeys[selectedRowKeys[i]].name,
                     amount: amountArr[i] ? amountArr[i] : 1,
+                    size: selectArr[i] ? selectArr : 'S',
                     image: listWithKeys[selectedRowKeys[i]].image,
                     price: listWithKeys[selectedRowKeys[i]].price,
                     discount: listWithKeys[selectedRowKeys[i]].discount ? listWithKeys[i].discount : 0,
@@ -201,6 +221,7 @@ export function ShoppingCartSelect() {
                 const newOrder = {
                     name: listWithKeys[i].name,
                     amount: amountArr[i] ? amountArr[i] : 1,
+                    size: selectArr[i] ? selectArr : 'S',
                     image: listWithKeys[i].image,
                     price: listWithKeys[i].price,
                     discount: listWithKeys[i].discount ? listWithKeys[i].discount : 0,
@@ -218,7 +239,9 @@ export function ShoppingCartSelect() {
     return (
 
         <div className="shoppingcart-contain">
-
+            {isLoading && <div className="loading">
+                <Spin />
+            </div>}
             <div
                 style={{
                     marginBottom: 16,

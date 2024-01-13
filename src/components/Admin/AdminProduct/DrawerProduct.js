@@ -30,15 +30,11 @@ export function DrawerProduct(props) {
 
 
     const handleUpdate = async (data) => {
-        console.log('dataFormUpdate', data);
-        console.log('data.size', typeof (data.size));
         if (typeof (data.size) === "string") {
             data.size = await data.size.split(',')
-            console.log('data.size', data.size);
         }
 
         const res = await ProductService.getProductApi.updateProduct(data, productSelected._id)
-        console.log('resssssUpdateProduct', res);
         if (res.message === 'update product SUCCESS') {
             message.info(`Cập nhật thông tin ${data.name} thành công`)
             // onClose()
@@ -47,7 +43,6 @@ export function DrawerProduct(props) {
 
     const handleDelete = async () => {
         const res = await ProductService.getProductApi.deleteProduct(productSelected._id, access_token)
-        // console.log('productSelected._id', productSelected._id)
         if (res.message === 'delete product Success') {
             message.info(`Xóa sản phẩm ${productSelected.name} thành công`)
             onClose()
@@ -56,8 +51,6 @@ export function DrawerProduct(props) {
                 const newList = newListProduct.filter((item) => item._id !== productSelected._id)
                 newListProduct = [...newList]
                 dispatch(update([...newList]))
-                console.log('valueee', newList);
-                // await UserService.getUserApi.deleteUser(userSelected._id, access_token)
             }
         }
     }

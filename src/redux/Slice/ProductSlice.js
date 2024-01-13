@@ -7,7 +7,8 @@ const initialState = {
     productCurrent: [],
     productDetail: {},
     checkPay: '',
-    productCheckout: []
+    productCheckout: [],
+    dataProductNew: []
 }
 
 
@@ -72,14 +73,19 @@ export const productSlice = createSlice({
         setProductCheckout: (state, action) => {
             const newArrayProduct = [...action.payload]
             state.productCheckout = newArrayProduct
-        }
+        },
+
+        setDataProductNew: (state, action) => {
+            // console.log('action.payload: ', action.payload);
+            state.dataProductNew = action.payload
+        },
 
 
 
     }
 })
 
-export const { update, updateProductCur, deleteProductCur, setDetaislProduct, setCheckpay, setProductCheckout } = productSlice.actions
+export const { update, updateProductCur, deleteProductCur, setDetaislProduct, setCheckpay, setProductCheckout, setDataProductNew } = productSlice.actions
 
 
 export default productSlice.reducer

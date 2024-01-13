@@ -8,8 +8,6 @@ export function ScrollView(props) {
 
     const { data } = props
 
-    // console.log('branch', data.name);
-
 
     return (
         <div>

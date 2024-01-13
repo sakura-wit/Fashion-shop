@@ -1,13 +1,13 @@
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faStore } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ScrollToTop } from "../components/common/useScrollToTop";
 import { useDispatch, useSelector } from "react-redux";
 import * as ProductService from '../service/ProductService'
-import { update } from "../redux/Slice/ProductSlice";
-import { Button, Popover } from 'antd';
+import { setDataProductNew, update } from "../redux/Slice/ProductSlice";
+import { Button, Popconfirm, Popover, Spin, message } from 'antd';
 
 export function Header(props) {
 
@@ -17,25 +17,58 @@ export function Header(props) {
   const user = useSelector((state) => state.user.dataUser.isAdmin)
   const navigate = useNavigate()
 
+  const [isLoading, setIsLoading] = useState(false)
+
+
   const handleFilter = async (data) => {
 
     if (data.key === 'Enter') {
+      setIsLoading(true)
       const res = await ProductService.getProductApi.getProductFilter(data.target.value)
       console.log('FilterDataaa', res.data);
-      dispash(update(res.data))
+      if (res.data) {
+        dispash(update(res.data))
+      }
+      setIsLoading(false)
       // return navigate("/")
     }
 
+  }
 
+  async function handleFilterButton(type, data) {
+    setIsLoading(true)
+    const res = await ProductService.getProductApi.getProductFilterAll(type, data)
+    if (res.data) {
+      dispash(update(res.data))
+    }
+
+    setIsLoading(false)
 
   }
 
+  const handleLogout = () => {
+    const access = localStorage.getItem("access_token")
+    if (access) localStorage.removeItem('access_token');
+    window.location.reload()
+    navigate('/')
+  }
+
+  const handleLogin = () => {
+    navigate('/sign-in')
+  }
+
+
+
   const content = (
     <div>
-      <p>Đăng xuất</p>
-      <Link style={{ color: "black" }} cursor="point" to="/profile">
+      {localStorage.getItem("access_token") && <p style={{ cursor: "pointer" }} onClick={handleLogout}>Đăng xuất</p>}
+      {!localStorage.getItem("access_token") && <p style={{ cursor: "pointer" }} onClick={handleLogin}>Đăng nhập</p>}
+      {localStorage.getItem("access_token") && <Link style={{ color: "black" }} cursor="point" to="/profile">
         <p>Thông tin cá nhân</p>
       </Link>
+      }
+
+
 
       {user ?
         <Link style={{ color: "black" }} to='/admin'>
@@ -48,6 +81,9 @@ export function Header(props) {
 
   return (
     <div className="header-contain header-font" style={hiddenOption ? { borderBottom: "solid 1px" } : { border: "none" }}>
+      {isLoading && <div className="loading">
+        <Spin />
+      </div>}
       <div className="header-name">
         <div
           style={{
@@ -81,7 +117,12 @@ export function Header(props) {
           </Popover>
 
           {!hiddenCart ?
-            <Link style={{ marginTop: "6px" }} to="/cart" onClick={ScrollToTop}>
+            <Link style={{ marginTop: "6px" }} to={localStorage.getItem('access_token') ? '/cart' : null} onClick={() => {
+              if (!localStorage.getItem('access_token')) {
+                message.info('Bạn cần phải đăng nhập')
+              }
+
+            }}>
               <FontAwesomeIcon
                 style={{ padding: 10, cursor: "pointer" }}
                 color="#000"
@@ -111,19 +152,26 @@ export function Header(props) {
           <li>Giới thiệu</li>
           <li>Sản phẩm</li>
 
-          <li className="dropdown-select">
+
+
+          <li onClick={() => navigate('/ao')} className="dropdown-select">
             Áo
-            {/* <ul className="he-dropdown-list-shirt">
+            < ul className="he-dropdown-list-shirt" >
               <li>ÁO THUN</li>
               <li>ÁO SƠ MI</li>
               <li>ÁO POLOS</li>
               <li>HOODIE-SWEATER</li>
               <li>ÁO KHOÁC</li>
-            </ul> */}
+            </ul>
           </li>
 
-          <li className="dropdown-select">
-            Quẩn
+          <li onClick={() => navigate('/quan')} className="dropdown-select">
+            Quần
+            <ul className="he-dropdown-list-shirt">
+              <li>JEANS</li>
+              <li>KAKI</li>
+
+            </ul>
             {/* <ul className="he-dropdown-list-shirt">
               <li>JEANS</li>
               <li>KAKI</li>
@@ -137,8 +185,8 @@ export function Header(props) {
 
           <li className="dropdown-select">
             Phụ kiện
-            <ul className="he-dropdown-list-shirt">
-              {/* <li>TẤT-VỚ</li>
+            {/* <ul className="he-dropdown-list-shirt"> */}
+            {/* <li>TẤT-VỚ</li>
               <li>BALO</li>
               <li>NÓN</li>
               <li>TÚI</li>
@@ -146,7 +194,7 @@ export function Header(props) {
               <li>VÍ</li>
               <li>GIÀY</li>
               <li>DÉP</li> */}
-            </ul>
+            {/* </ul> */}
           </li>
 
           <li className="dropdown-select">
@@ -175,7 +223,7 @@ export function Header(props) {
         }
 
 
-      </div>
+      </div >
     </div >
   );
 }

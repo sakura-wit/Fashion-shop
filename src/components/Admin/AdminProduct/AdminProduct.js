@@ -27,7 +27,6 @@ export function AdminProduct() {
 
     const dataAllProduct = useSelector((state) => state.product.dataProduct)
     let dataAddProduct = [...dataAllProduct]
-    console.log('dataAllProductdataAllProduct', dataAllProduct);
 
     let dataImageDetail = []
     let dataImagePreview = []
@@ -55,7 +54,6 @@ export function AdminProduct() {
     };
 
     const handleOk = (data) => {
-        console.log(data);
         setIsModalOpen(false);
     };
 
@@ -65,7 +63,6 @@ export function AdminProduct() {
     };
 
     const handleGetPathImageArr = (list, data) => {
-        console.log('pussss', list.fileList);
         for (var i = 0; i < list.fileList.length; i++) {
 
             data.push(list.fileList[i].preview)
@@ -79,23 +76,11 @@ export function AdminProduct() {
         data.imageDetail = handleGetPathImageArr(data.imageDetail, dataImageDetail)
         if (typeof (data.size) === "string") {
             data.size = await data.size.split(',')
-            // console.log('data.size', data.size);
-        }
-        // data.imageDetail
-        // console.log('dataImagePreview', dataImagePreview);
-        // data.name = data?.name?.file?.preview
 
-        // const res = await ProductService.getProductApi.createProduct(data)
-        console.log('dataaaaCreat', data);
+        }
+
         let dataPush = data
         dataAddProduct.push(dataPush)
-        // if (res.message === 'SUCCESS') {
-
-        // dispash(update(dataAddProduct))
-        //     setIsModalOpen(false)
-        //     message.info('Tạo product thành công')
-
-        // }
 
 
     }
@@ -112,8 +97,6 @@ export function AdminProduct() {
 
         }
 
-        // setAvatar(fileList.lengh != 0 && file?.preview)
-        // console.log('file.preview', file?.preview);
 
     }
 

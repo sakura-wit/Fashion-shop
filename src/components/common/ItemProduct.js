@@ -16,8 +16,6 @@ export function ItemProduct(props) {
 
     const { image, title, data } = props
 
-    // console.log('dataaaaItemmmm', data);
-
     const [isClick, setIsClick] = useState(false);
 
 
@@ -76,7 +74,7 @@ export function ItemProduct(props) {
                     <div>
                         {/* <Rating /> */}
                         <Rate allowHalf defaultValue={data.rating} />
-                        <h6>chất liệu: </h6>
+                        <h6>Loại:{data.type} </h6>
                         <h6>Giá: {data.price}</h6>
                     </div>
 

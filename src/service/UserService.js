@@ -28,12 +28,11 @@ export const getUserApi = {
             method: 'GET'
         }),
 
-    signinUser: (data) =>
-        makeRequest({
-            url: '/user/sign-in',
-            method: 'POST',
-            data
-        }),
+    signinUser: (data) => makeRequest({
+        url: '/user/sign-in',
+        method: 'POST',
+        data
+    }),
     signupUser: (data) =>
         makeRequest({
             url: '/user/sign-up',
@@ -41,14 +40,12 @@ export const getUserApi = {
             data
         }),
     updateUser: (data, id) => {
-        console.log('datttttttt', data);
         if (id._id) {
-            makeRequest({
+            return makeRequest({
                 url: `/user/update-user/${id._id}`,
                 method: 'PUT',
                 data
             })
-            console.log('khongronggg', data);
         }
 
     },

@@ -18,23 +18,6 @@ export function CheckOut(props) {
     const orderItem = useSelector((state) => state.order.orderItem)
     console.log('orderItem', orderItem);
 
-    // var n = [1]
-    // var a = []
-    // var b = { name: 1 }
-    // var c = { name: 2 }
-
-    // a.push(b)
-    // console.log('testArrayy', a);
-    // a.push(c)
-    // console.log('testArrayy', a);
-
-    // // n = [...a]
-    // console.log('n=a', n);
-    // console.log('n=a', n = a);
-
-
-
-
     return (
 
         <div className="checkout-contain" >

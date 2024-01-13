@@ -14,7 +14,6 @@ export function ListTable() {
     let listUser = dataAllUser
 
     const handleDeleteUser = async (data) => {
-        console.log('handleDeleteUser', data);
         setUserSelected(data)
     }
 

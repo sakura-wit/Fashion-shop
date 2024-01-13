@@ -18,12 +18,9 @@ const intercepterError = async (err) => {
 }
 
 const intercepterResponse = async (response) => {
-    // console.log('nguyenvandatheo', response.data);
     return response?.data
 
 }
 
 makeRequest.interceptors.request.use(intercepterRequest, intercepterError)
 makeRequest.interceptors.response.use(intercepterResponse, intercepterError)
-// intercepterRequest, intercepterError
-// intercepterResponse, intercepterError
