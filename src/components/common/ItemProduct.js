@@ -8,12 +8,15 @@ import { useDispatch } from "react-redux";
 import { updateProductCur } from "../../redux/Slice/ProductSlice";
 import { BuyButton } from "./BuyButton";
 import { AddCartButton } from "./AddCartButton";
+import { Rate } from "antd";
 
 
 
 export function ItemProduct(props) {
 
     const { image, title, data } = props
+
+    // console.log('dataaaaItemmmm', data);
 
     const [isClick, setIsClick] = useState(false);
 
@@ -60,18 +63,6 @@ export function ItemProduct(props) {
 
 
                         }} />
-
-                    {/* <BuyButton
-                        title='Đặt hàng'
-                        style={{
-                            width: "160px",
-                            height: 40,
-                            marginLeft: 60,
-                            borderRadius: "0.4rem"
-
-
-                        }} /> */}
-
                 </Link >
 
 
@@ -80,12 +71,13 @@ export function ItemProduct(props) {
 
             <div className={`de-prevew-container ${isClick ? 'show' : ''}`}>
                 <h6>TITLE</h6>
-                <div style={{ display: "flex" }}>
-                    <img style={{ width: 80, height: 80 }} src="https://oldsailor.com.vn/vnt_upload/product/09_2023/thumbs/550_crop_004479e2870a52540b1b25.jpg" />
+                <div style={{ display: "flex", }}>
+                    <img style={{ width: 80, height: 80, objectFit: "cover", marginRight: 3 }} src={data.image} />
                     <div>
-                        <Rating />
+                        {/* <Rating /> */}
+                        <Rate allowHalf defaultValue={data.rating} />
                         <h6>chất liệu: </h6>
-                        <h6>Giá: </h6>
+                        <h6>Giá: {data.price}</h6>
                     </div>
 
                 </div>

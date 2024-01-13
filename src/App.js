@@ -50,7 +50,7 @@ function App() {
 
   const dispash = useDispatch()
 
-  const oldID = useSelector((state) => state.user.dataUser._id)
+  const oldID = useSelector((state) => state.user.dataUser?._id)
   console.log('old', oldID);
 
   useEffect(() => {

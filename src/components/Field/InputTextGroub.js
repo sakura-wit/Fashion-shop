@@ -3,16 +3,31 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import schema from "../../schema";
+import { useSelector } from "react-redux";
 
 
 
 export function InputTextGroup(props) {
 
-    const { fields, control, formState, style, label, title, change, placeholder } = props;
+    const { fields, control, formState, style, label, title, change, place, required } = props;
 
-
+    const user = useSelector((state) => state.user.dataUser)
+    console.log('defaultValue', place);
     const handleChane = (value) => {
         console.log("value", value.target.value);
+    }
+
+    const setDefaultValue = () => {
+        switch (place) {
+            case 'name':
+                return user.name;
+            case 'phone':
+                return user.phone;
+            case 'email':
+                return user.email;
+            default:
+                return undefined;
+        }
     }
 
     return (
@@ -27,7 +42,7 @@ export function InputTextGroup(props) {
 
                     name={fields.name}
                     control={control}
-                    defaultValue=''
+                    // defaultValue={'defaultValue'}
                     render={({ field }) => (
                         <TextField
                             size="small"
@@ -38,7 +53,7 @@ export function InputTextGroup(props) {
                             helperText={formState.errors[field.name]?.message || ""}
                             {...field}
                             multiline={fields.mul}
-                            placeholder={placeholder}
+                        // placeholder={place}
                         />
                     )}
                 />

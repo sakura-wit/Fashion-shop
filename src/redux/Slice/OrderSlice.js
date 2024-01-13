@@ -5,7 +5,9 @@ const initialState = {
     orderItem: [],
     shippingAddress: {},
     paymentMethod: 'COD',
-    dataOrderAdmin: []
+    dataOrderAdmin: [],
+    userOrderPend: [],
+    dataCreateOrder: {}
 }
 
 export const orderSlice = createSlice({
@@ -26,6 +28,14 @@ export const orderSlice = createSlice({
 
         updateDataOrderAdmin: (state, action) => {
             state.dataOrderAdmin = action.payload
+        },
+
+        updateUserOrderPend: (state, action) => {
+            state.userOrderPend = action.payload
+        },
+
+        updateDataCreateOrder: (state, action) => {
+            state.dataCreateOrder = action.payload
         }
     }
 })

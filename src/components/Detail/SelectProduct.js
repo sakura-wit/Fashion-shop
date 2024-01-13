@@ -8,6 +8,7 @@ import { ScrollToTop } from "../common/useScrollToTop";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productSlice, setCheckpay, setDetaislProduct, setProductCheckout } from "../../redux/Slice/ProductSlice";
+import { orderAction } from "../../redux/Slice/OrderSlice";
 
 export function SelectProduct() {
 
@@ -24,10 +25,6 @@ export function SelectProduct() {
 
     const dispash = useDispatch()
 
-    // {
-    //     name: dataDetailProduct.name,
-    //     price: dataDetailProduct.price
-    // }
 
     const changeCheckPay = () => {
 
@@ -40,6 +37,18 @@ export function SelectProduct() {
         console.log('productPay', payment);
         dispash(setCheckpay("siglePay"))
 
+    }
+
+    const handleOnclick = () => {
+        var orderItemArr = []
+        const orderItem = {}
+        orderItem.name = dataDetailProduct.name
+        orderItem.amount = dataDetailProduct.amount ? dataDetailProduct.amount : 1
+        orderItem.image = dataDetailProduct.image
+        orderItem.price = dataDetailProduct.price
+        orderItem.discount = dataDetailProduct.discount
+        orderItemArr.push(orderItem)
+        dispash(orderAction.updateOrderItem(orderItemArr))
     }
 
     return (
@@ -93,8 +102,10 @@ export function SelectProduct() {
                     <div style={{ display: "flex", justifyContent: 'space-between' }}>
                         <Link to="/checkout" dataproduct="nguyenvandat" onClick={changeCheckPay}>
                             <button
+                                onClick={handleOnclick}
                                 style={{ width: 180 }}
                                 className="buybut-control" >Đặt hàng ngay
+
                                 <FontAwesomeIcon className="buybut-control-icon"
                                     icon={faBagShopping}
                                     style={{ color: "#000", marginLeft: 10 }} /></button>

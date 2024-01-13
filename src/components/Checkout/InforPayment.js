@@ -7,9 +7,15 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { AddCartButton, BuyButton } from "../common/AddCartButton";
 import { OrderButton } from "./OrderButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as OrderService from '../../service/OrderService'
-
+import { deleteProductCur } from "../../redux/Slice/ProductSlice";
+import * as UserService from '../../service/UserService'
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
+import * as PaymentService from '../../service/PaymentService'
+import { PayPalButton } from "react-paypal-button-v2";
+import { orderAction } from "../../redux/Slice/OrderSlice";
 
 
 
@@ -18,9 +24,19 @@ export function InforPayment(props) {
     const user = useSelector((state) => state.user.dataUser)
     const paymentMethod = useSelector((state) => state.order.paymentMethod)
 
-    const { orderItem } = props
+    const orderItem = useSelector((state) => state.order.orderItem)
+
+    const cartUser = useSelector((state) => state.product.productCurrent)
+    console.log('state.product.productCurrent', cartUser);
+    // const [listCart, setListCart] = useState(cartUser)
+
+    const [dataOrder, setDataOrder] = useState()
+
+    const navigate = useNavigate();
 
     const shippingPrice = 20000
+
+    const dispash = useDispatch()
 
     const fields = [
         { name: "firstName", label: "Tên*" },
@@ -39,7 +55,13 @@ export function InforPayment(props) {
         resolver: yupResolver(schema)
     })
 
+    async function updateCart(data, id) {
+        await UserService.getUserApi.updateUser(data, id)
+    }
 
+    // const vietnamTime = new Intl.DateTimeFormat('en-US', {
+    //     timeZone: 'Asia/Ho_Chi_Minh',
+    // }).format(currentDate);
 
 
     const onSubmit = async (values) => {
@@ -67,7 +89,7 @@ export function InforPayment(props) {
         const data = {
             orderItems: orderItem,
             email: user.email,
-            name: user.name,
+            name: values.lastName ? values.lastName + ' ' + values.firstName : values.firstName,
             shippingAddress: shippingAddress,
             paymentMethod: paymentMethod,
             itemsPrice: itemsPrice,
@@ -75,16 +97,87 @@ export function InforPayment(props) {
             totalPrice: totalPrice,
             user: user._id,
             isPaid: false,
-            paidAt: dateCurrent.getDate(),
+            paidAt: new Intl.DateTimeFormat('en-US', {
+                timeZone: 'Asia/Ho_Chi_Minh',
+            }).format(dateCurrent),
             isDelivered: false,
             confirm: "Pending"
         }
 
+        dispash(orderAction.updateDataCreateOrder(data))
         console.log('dataCreateeeOrderr', data);
 
-        const res = await OrderService.processOrderApi.createNewOrder(data)
-        console.log('ressssss', res);
+        setDataOrder(data)
+
+        // const res = await OrderService.processOrderApi.createNewOrder(data)
+
+
+        var listCart = cartUser
+
+        for (var i = 0; i < orderItem.length; i++) {
+
+            const check = listCart.some((item) => item._id === orderItem[i].product)
+            if (check) {
+                console.log('orderItem[i].product', orderItem[i].product);
+                const newList = listCart.filter((item) => item._id !== orderItem[i].product)
+                listCart = [...newList]
+                dispash(deleteProductCur([...newList]))
+                console.log('valueee', newList);
+                const res = updateCart({ cart: newList }, user._id)
+                // console.log('orderItem.length', orderItem[i]);
+
+                if (res?.message === 'update product SUCCESS') {
+                    console.log('Xóa sản phẩm thành công')
+
+                }
+            }
+        }
+
+        // if (res.message === 'SUCCESS') {
+        //     message.info('Đặt đơn hàng thành công !!!')
+        //     return navigate("/");
+        // }
     }
+
+    ///// PROCESS PAYMENT PAYPALL
+
+    const payMethod = useSelector((state) => state.order.paymentMethod)
+
+    const [sdkReady, setSdkReady] = useState(false)
+
+    const onSuccessPaypal = async (details, data) => {
+        dataOrder.isPaid = true
+        const res = await OrderService.processOrderApi.createNewOrder(dataOrder)
+        // console.log('details, data', details, data)
+        if (res.message === 'SUCCESS') {
+            message.info('Đặt hàng thành công')
+            return navigate('/')
+        }
+
+    }
+
+    const addPaypalScript = async () => {
+        const { data } = await PaymentService.processOrderApi.getIdClient()
+
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = `https://www.paypal.com/sdk/js?client-id=${data}`
+        script.async = true;
+        script.onload = () => {
+            setSdkReady(true)
+        }
+        document.body.appendChild(script)
+    }
+    useEffect(() => {
+        if (!window.paypal) {
+            addPaypalScript()
+        } else {
+            setSdkReady(true)
+        }
+
+
+    }, [])
+
 
     return (
 
@@ -110,7 +203,9 @@ export function InforPayment(props) {
                     fields={fields[0]}
                     control={control}
                     formState={formState}
-                    type="text" title="Tên* " place={"aloooo"} />
+                    type="text" title="Tên "
+                    required={true}
+                />
 
                 <InputTextGroup
                     style={{ width: 320 }}
@@ -142,7 +237,9 @@ export function InforPayment(props) {
                     fields={fields[7]}
                     control={control}
                     formState={formState}
-                    title="Tên tỉnh/Thành phố" />
+                    title="Tên tỉnh/Thành phố"
+                    required={true}
+                />
             </div>
 
             {/* phone/ email */}
@@ -159,7 +256,9 @@ export function InforPayment(props) {
                     fields={fields[3]}
                     control={control}
                     formState={formState}
-                    type="text" title="Địa chỉ *" place="Địa chỉ" />
+                    type="text" title="Địa chỉ " place="address"
+                    required={true}
+                />
 
                 <InputTextGroup
                     style={{
@@ -168,7 +267,10 @@ export function InforPayment(props) {
                     fields={fields[4]}
                     control={control}
                     formState={formState}
-                    type="text" title="Số điện thoại*" />
+                    type="text" title="Số điện thoại*"
+                    place="phone"
+                    required={true}
+                />
 
             </div>
 
@@ -182,7 +284,8 @@ export function InforPayment(props) {
                     fields={fields[5]}
                     control={control}
                     formState={formState}
-                    title="Địa chỉ email*" place="Địa chỉ" />
+                    title="Địa chỉ email" place="email"
+                    required={true} />
                 {/* <InputTextGroup titl="Số điện thoại*" /> */}
             </div>
 
@@ -204,7 +307,24 @@ export function InforPayment(props) {
                 />
             </div>
 
-            <OrderButton title='Đặt hàng' />
+            {
+                payMethod === 'Paypall' && sdkReady ? <PayPalButton
+                    amount={0.1}
+                    // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                    onSuccess={onSuccessPaypal}
+                    onError={(data) => {
+                        alert('Error')
+                        // console.log('ErrorError',data);
+                    }
+                    }
+                    onClick={
+                        handleSubmit(onSubmit)
+                    }
+                >
+                </PayPalButton> : <OrderButton title='Đặt hàng' />
+            }
+
+
 
         </form >
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InforPayment } from "../components/Checkout/InforPayment";
 import { Bill } from "../components/Checkout/Bill";
 import { useSelector } from "react-redux";

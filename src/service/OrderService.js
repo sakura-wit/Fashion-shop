@@ -33,4 +33,19 @@ export const processOrderApi = {
                 confirm: "Confirmed"
             }
         }),
+    getOrderPendingOfUser: (data) =>
+        makeRequest({
+            url: `/order/get-allOrder/?filter=email&filter=${data}`,
+            method: 'GET',
+        }),
+    deleteOrder: (data, token) =>
+        makeRequest({
+            url: `/order/delete-order/${data}`,
+            method: 'DELETE',
+            headers: {
+                token: `Beare ${token}`
+            }
+        })
+
+
 }

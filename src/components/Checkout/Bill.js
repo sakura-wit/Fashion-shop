@@ -40,15 +40,15 @@ export function Bill(props) {
 
                 {
                     dataCheckout?.map((val, key) => {
-                        totalPrice += val.price * val.amount
+                        val.amount ? totalPrice += val.price * val.amount : totalPrice += val.price
                         return (
                             <MDBListGroupItem key={key} style={{
                                 display: "flex",
                                 justifyContent: "space-between",
                                 paddingBottom: 0
                             }} >
-                                <p> {val.name} x ( {val.amount} ) </p>
-                                <p style={{ fontWeight: "bold" }}> {val.price * val.amount}đ </p>
+                                <p> {val.name} x ( {val.amount ? val.amount : 1} ) </p>
+                                <p style={{ fontWeight: "bold" }}> {val.amount ? val.price * val.amount : val.price}đ </p>
                             </MDBListGroupItem>
                         )
                     })

@@ -5,6 +5,9 @@ import { Feedback } from "../components/Detail/Feedback";
 import { useScrollToTop } from "../components/common/useScrollToTop";
 
 export function DetailProductPage() {
+    window.scrollTo({
+        top: 0
+    })
     return (
 
         <div className="detailpage-contain">

@@ -9,6 +9,7 @@ import { update } from "../redux/Slice/ProductSlice";
 import * as ProductService from '../service/ProductService'
 import * as UserService from '../service/UserService'
 import { useEffect } from "react";
+import { Pagination } from "antd";
 
 
 export function HomePage() {
@@ -34,6 +35,12 @@ export function HomePage() {
         dispash(update(res.data))
         return res.data
 
+    }
+
+    async function getDataPanigation(page) {
+
+        const res = await ProductService.getProductApi.getDataPanigation(page)
+        dispash(update(res.data))
     }
 
 
@@ -66,7 +73,7 @@ export function HomePage() {
             <div className="ho-newproduct-contain">
                 <h1>Sản phẩm mới</h1>
 
-                <SlideShowMul />
+                <SlideShowMul dataProduct={dataProduct} />
 
             </div>
 
@@ -103,9 +110,16 @@ export function HomePage() {
             <div className="ho-newproduct-contain">
                 <h1>Sản phẩm bán chạy</h1>
 
-                <SlideShowMul />
+                <SlideShowMul dataProduct={dataProduct} />
 
             </div>
+
+            <Pagination onChange={(data) => {
+                getDataPanigation(data)
+                window.scrollTo({
+                    top: 0
+                })
+            }} style={{ margin: "auto" }} defaultCurrent={1} total={50} />;
 
         </div >
 

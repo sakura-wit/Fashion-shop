@@ -8,6 +8,12 @@ export const getProductApi = {
             method: 'GET'
         }),
 
+    getDataPanigation: (page) =>
+        makeRequest({
+            url: `/product/get-allProduct?page=${page - 1}&limit=12`,
+            method: 'GET'
+        }),
+
     getProductFilter: (name) =>
         makeRequest({
             url: `/product/get-allProduct?filter=name&filter=${name}`,
