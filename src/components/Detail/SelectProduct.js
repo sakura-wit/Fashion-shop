@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SlideShowDetails } from "./SlideShowDetail";
 import { ScrollView } from "../common/ScrollView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +9,20 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { productSlice, setCheckpay, setDetaislProduct, setProductCheckout } from "../../redux/Slice/ProductSlice";
 import { orderAction } from "../../redux/Slice/OrderSlice";
+import { LikeButtonFace } from "../common/LikeButtonFace";
 
 export function SelectProduct() {
 
+
     const dataDetailProduct = useSelector((state) => state.product.productDetail)
+
     console.log('dataDetailProduct', dataDetailProduct);
 
+    // localStorage.setItem('dataDetailProduct', dataDetailProduct)
+
+    // useEffect(() => {
+    //     !dataDetailProduct ? dataDetailProduct = localStorage.getItem('dataDetailProduct') : dataDetailProduct
+    // }, [])
     // const [productPay, setProductPay] = useState([])
 
     var payment = []
@@ -117,8 +125,9 @@ export function SelectProduct() {
                             title="Thêm vào giỏ hàng" />
                     </div>
 
+                    <LikeButtonFace dataHref="https://developers.facebook.com/docs/plugins/" />
 
-                    <ScrollView data={dataDetailProduct} />
+                    {/* <ScrollView data={dataDetailProduct} /> */}
                 </div>
 
             </div>

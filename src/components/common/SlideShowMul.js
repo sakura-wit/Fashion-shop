@@ -75,7 +75,11 @@ function SlideShowMul(props) {
                 dataProduct?.map((val) => {
                     // return <ItemProduct style={style} data={val} key={val.name} image={val.image} title={val.name} />
                     return <Link to='/detail'>
-                        <img onClick={() => dispash(setDetaislProduct(val))} src={val.image} />
+                        <img onClick={() => {
+                            dispash(setDetaislProduct(val))
+                            const jsonString = JSON.stringify(val);
+                            localStorage.setItem('dataDetailProduct', jsonString)
+                        }} src={val.image} />
                     </Link>
 
                 })

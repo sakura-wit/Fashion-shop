@@ -10,6 +10,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { getBase64 } from "../utils";
 import styled from "@emotion/styled";
 import { isLoading } from "../api/axios/request";
+import avatarDefault from "../../src/avatadefault.png"
 
 
 const WrapUploadFile = styled(Upload)`
@@ -69,7 +70,7 @@ export function InforUser() {
 
     const [form] = Form.useForm()
 
-    const [avatar, setAvatar] = useState(inforUser.avatar)
+    const [avatar, setAvatar] = useState(inforUser.avatar ? inforUser.avatar : avatarDefault)
 
     const handleSelectFile = async ({ fileList }) => {
         const file = fileList[0]
@@ -82,7 +83,7 @@ export function InforUser() {
 
     const onSubmitUpdate = async (data) => {
         console.log('data.avatar', data);
-        if (data.avatar.file)
+        if (data.avatar && data.avatar.file)
             data.avatar = data.avatar.file.preview
         console.log('dataUpdateInforUser', data);
 

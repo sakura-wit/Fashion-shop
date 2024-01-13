@@ -114,13 +114,16 @@ export function HomePage() {
 
             </div>
 
-            <Pagination onChange={(data) => {
-                getDataPanigation(data)
-                window.scrollTo({
-                    top: 0
-                })
-            }} style={{ margin: "auto" }} defaultCurrent={1} total={50} />;
+            <div style={{ width: 300, margin: "auto" }}>
 
+                <Pagination onChange={(data) => {
+                    getDataPanigation(data)
+                    window.scrollTo({
+                        top: 0
+                    })
+                }} style={{ margin: "auto" }} defaultCurrent={1} total={50} />;
+
+            </div>
         </div >
 
     )
