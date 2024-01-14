@@ -12,7 +12,6 @@ export function InputTextGroup(props) {
     const { fields, control, formState, style, label, title, change, place, required } = props;
 
     const user = useSelector((state) => state.user.dataUser)
-    // console.log('defaultValue', place);
     const handleChane = (value) => {
         console.log("value", value.target.value);
     }

@@ -147,7 +147,7 @@ export function InforPayment(props) {
     const [sdkReady, setSdkReady] = useState(false)
 
     const onSuccessPaypal = async (details, data) => {
-        console.log('details, data,details, datadetails, data', dataOrder)
+       
         let newDataOrder = { ...dataOrder }
         newDataOrder.isPaid = true
         const res = await OrderService.processOrderApi.createNewOrder(newDataOrder)
@@ -158,9 +158,6 @@ export function InforPayment(props) {
 
     }
 
-    const submitOrder = (data) => {
-        console.log(data);
-    }
 
     const addPaypalScript = async () => {
         const { data } = await PaymentService.processOrderApi.getIdClient()

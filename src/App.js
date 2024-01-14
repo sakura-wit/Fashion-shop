@@ -26,7 +26,6 @@ import TestForm from "./Pages/TestForm";
 import { DetailProductPage } from "./Pages/DetailProductPage";
 import { ShoppingCart } from "./Pages/ShoppingCart";
 import { TestRedux } from "./Pages/TestRedux";
-import { Fragment, useEffect } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { SignPage } from "./Pages/SignPage";
@@ -44,6 +43,7 @@ import { updateProductCur } from "./redux/Slice/ProductSlice";
 import { intercepterRequest, makeRequest } from "./api/axios/request";
 import { routes } from "./routes";
 import { MainLayout } from "./Layouts/MainLayout";
+import { Fragment, useEffect } from "react";
 
 
 function App() {

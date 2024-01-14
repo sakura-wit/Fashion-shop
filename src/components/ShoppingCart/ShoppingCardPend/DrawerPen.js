@@ -37,7 +37,7 @@ export function DrawerPend(props) {
     const handleUpdate = async (data) => {
         if (typeof (data.size) === "string") {
             data.size = await data.size.split(',')
-            console.log('data.size', data.size);
+           
         }
 
         const res = await ProductService.getProductApi.updateProduct(data, orderSelected._id)
