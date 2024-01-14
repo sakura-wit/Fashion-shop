@@ -69,7 +69,10 @@
     ]
   },
   "proxy": "http://localhost:3001",
-  "paths": {
-    "react/jsx-runtime": "react/jsx-runtime.js"
+  "resolve": {
+    "fallback": {
+      "react/jsx-runtime": "react/jsx-runtime.js",
+      "react/jsx-dev-runtime": "react/jsx-dev-runtime.js"
+    }
   }
 }
