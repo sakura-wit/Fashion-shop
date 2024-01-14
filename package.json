@@ -68,5 +68,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://backend-fashionshop.onrender.com"
+  "proxy": "http://localhost:3001"
 }
